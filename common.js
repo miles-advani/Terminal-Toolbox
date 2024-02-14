@@ -13,7 +13,7 @@ const axios = require("axios");
 // insert openweathermap.org api or import it from config.js===================
 
 // const API_KEY = "enter your API from openweathermap.org";
-const { API_KEY } = require("./config.js");
+// const { API_KEY } = require("./config.js");
 
 // location====================================================================
 // ============================================================================
@@ -29,6 +29,7 @@ async function getUserIP() {
 }
 
 // function for getting the user's location=====================================
+// used in 02-info.js, 03-weather.js
 
 async function getUserLocation() {
   const ip = await getUserIP();
@@ -43,6 +44,8 @@ async function getUserLocation() {
 // date and time===============================================================
 // ============================================================================
 // function for getting the local time based on the user's location============
+// it's not used in weather.js but weather.js breaks without it
+// used in 02-info.js
 
 async function getLocalTime(location) {
   try {
@@ -56,7 +59,7 @@ async function getLocalTime(location) {
 }
 
 // Export the functions=======================================================
-// ===========================================================================
+// ============================================================================
 
 module.exports = {
   getUserIP,

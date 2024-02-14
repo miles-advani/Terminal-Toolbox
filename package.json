@@ -3,6 +3,6 @@
     "axios": "^1.6.7",
     "mathjs": "^12.3.2",
     "moment": "^2.30.1",
-    "moment-timezone": "^0.5.45"
+    "moment-timezone": "^0.5.45" 
   }
 }
