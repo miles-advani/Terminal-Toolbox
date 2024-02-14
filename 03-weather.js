@@ -8,20 +8,35 @@
 
 // dependencies====================================================
 
-// const axios = require("axios");
+const axios = require("axios");
 
 // insert openweathermap.org api or import it from config.js=======
 
 // const API_KEY = "your API from openweathermap.org";
-// const { API_KEY } = require("./config.js");
+const { API_KEY } = require("./config.js");
 
 // insert functions here or import them from common.js==============
 
 const {
   // getUserIP,
-  // getUserLocation,
-  getForecast,
+  getUserLocation,
+  // getLocalTime // not used in this file but file is not working without it?
 } = require("./common.js");
+
+// Function to get the weather forecast based on the user's location==========
+
+async function getForecast() {
+  //   const city = await getUserLocation();
+  const location = await getUserLocation();
+  try {
+    const response = await axios.get(
+      `http://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`
+    );
+    return response.data.list;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // Function to display the weather forecast===========================
 
@@ -41,4 +56,12 @@ async function displayForecast() {
 
 displayForecast();
 
-// end of info.js=========================================================
+// end of weather.js======================================================
+
+// exports================================================================
+
+module.exports.getWeatherForecast = function getWeatherForecast() {
+  displayForecast();
+};
+
+// =======================================================================

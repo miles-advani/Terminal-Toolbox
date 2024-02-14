@@ -99,3 +99,13 @@ async function start() {
 
 // Call the start function to begin the calculator
 start();
+
+// end of calculator.js=========================================================
+
+// exports======================================================================
+
+module.exports.startCalculator = function startCalculator() {
+  start();
+};
+
+// ==============================================================================
