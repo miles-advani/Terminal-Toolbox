@@ -48,7 +48,7 @@ function askQuestion(query) {
 
 async function start() {
   const option = await askQuestion(
-    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n> "
+    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n4. Exit \n\n> "
   );
 
   switch (option) {
@@ -87,6 +87,12 @@ async function start() {
         console.log(`\n${remInput} REM is equal to ${pxResult} pixels.`);
       }
       break;
+
+      case "4":
+        console.log("\n--------------------------------------------------\n");
+        console.log("\nExiting the app. Goodbye!");
+        process.exit(0);
+        break;
 
     default:
       console.log(`\nInvalid option:\n\nPlease type in "1", "2" or "3".`);

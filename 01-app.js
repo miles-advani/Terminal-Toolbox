@@ -15,6 +15,7 @@ const readline = require("readline");
 const { infoApp } = require("./02-info.js");
 const { weatherApp } = require("./03-weather.js");
 const { calculatorApp } = require("./04-calculator.js");
+const { toDoApp } = require("./05-to-do.js");
 
 // function to start the app====================================================
 
@@ -27,13 +28,20 @@ async function startApp() {
   });
 
   rl.question(
-    "\nPlease select an option: \n\n1. Weather Forecast \n2. Calculator \n\n> ",
+    "\nPlease select an option: \n\n1. Weather Forecast \n2. Calculator\n3. To Do List\n4. Exit \n\n> ",
     (answer) => {
       rl.close();
       if (answer === "1") {
         weatherApp();
       } else if (answer === "2") {
         calculatorApp();
+      } 
+      else if (answer === "3") {
+        toDoApp();
+      } 
+      else if (answer === "4") {
+        console.log("\nExiting the app. Goodbye!");
+        process.exit(0);
       } else {
         console.log(`\nInvalid option:\n\nPlease type in "1" or "2".`);
       }
