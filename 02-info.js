@@ -19,7 +19,7 @@ const moment = require("moment");
 // const API_KEY = "your API from openweathermap.org";
 const { API_KEY } = require("./config.js");
 
-// insert functions here or import them from common.js=========================
+// import functions from other files==========================================
 
 const {
   // getUserIP,
@@ -72,12 +72,16 @@ async function displayInfo() {
 
 // call the function==========================================================
 
-displayInfo();
+// displayInfo();
 
 // end of info.js=============================================================
 
 // export the functions=======================================================
 
-module.exports.getInfo = function getInfo() {
-  displayInfo();
+// module.exports.getInfo = function getInfo() {
+//   displayInfo();
+// };
+
+module.exports.infoApp = async function infoApp() {
+  await displayInfo();
 };

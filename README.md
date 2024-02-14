@@ -20,6 +20,8 @@
 - add todo list
 - improve console log
 - add colors
+- add option to do  nothing
+
 
 ## Presentation
 

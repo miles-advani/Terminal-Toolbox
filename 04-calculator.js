@@ -11,29 +11,25 @@
 //
 // ===========================================================================================
 
-// dependencies================================================================
+// dependencies==============================================================================
 
 const readline = require("readline");
 const math = require("mathjs");
 
-// insert functions here or import them from common.js==========================
+// Function to convert pixels to rem===========================================================
 
-// const { calculate, convertPxToRem, convertRemToPx } = require("./common.js");
-
-// function for converting px to rem===========================================
-// ============================================================================
-
-// Function to convert pixels to rem
 function pxToRem(px, baseSize = 16) {
   return px / baseSize;
 }
 
-// Function to convert rem to pixels
+// Function to convert rem to pixels===========================================================
+
 function remToPx(rem, baseSize = 16) {
   return rem * baseSize;
 }
 
-// Function to ask a question and get user input
+// Function to ask a question and get user input================================================
+
 function askQuestion(query) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -48,63 +44,64 @@ function askQuestion(query) {
   );
 }
 
-// Function to start the calculator
+// Function to start the calculator=============================================================
+
 async function start() {
   const option = await askQuestion(
-    "Please select an option: \n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n"
+    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n> "
   );
 
   switch (option) {
     case "1":
       const expression = await askQuestion(
-        "Please enter a mathematical expression: "
+        "\n--------------------------------------------------\n\nPlease enter a mathematical expression:\n\n> "
       );
       try {
         const result = math.evaluate(expression);
-        console.log(`The result is: ${result}`);
+        console.log(`\nThe result is: ${result}`);
       } catch (error) {
-        console.log("Invalid expression");
+        console.log("\nInvalid expression");
       }
       break;
 
     case "2":
       const px = await askQuestion(
-        "Please enter the number of pixels you want to convert to REM: "
+        "\n--------------------------------------------------\n\nPlease enter the number of pixels you want to convert to REM:\n\n> "
       );
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
-        console.log("Invalid input for pixels");
+        console.log("\nInvalid input for pixels");
       } else {
-        console.log(`${px} pixels is equal to ${rem} REM.`);
+        console.log(`\n${px} pixels is equal to ${rem} REM.`);
       }
       break;
 
     case "3":
       const remInput = await askQuestion(
-        "Please enter the number of REM you want to convert to pixels: "
+        "\n--------------------------------------------------\n\nPlease enter the number of REM you want to convert to pixels:\n\n> "
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log("Invalid input for REM");
+        console.log("\nInvalid input for REM");
       } else {
-        console.log(`${remInput} REM is equal to ${pxResult} pixels.`);
+        console.log(`\n${remInput} REM is equal to ${pxResult} pixels.`);
       }
       break;
 
     default:
-      console.log("Invalid option");
+      console.log(`\nInvalid option:\n\nPlease type in "1", "2" or "3".`);
       break;
   }
 }
 
 // Call the start function to begin the calculator
-start();
+// start();
 
 // end of calculator.js=========================================================
 
 // exports======================================================================
 
-module.exports.startCalculator = function startCalculator() {
+module.exports.calculatorApp = function calculatorApp() {
   start();
 };
 
