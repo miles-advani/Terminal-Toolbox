@@ -1,21 +1,21 @@
 // =================================================================
 
 // project: toolbox/weather.js
-// date: 19.09.2021
+// date: 13.02.2024
 // weather in for the next 5 days in the user's location
 // use the functions from common.js
-// and api.openweathermap.org
+// and api.openweathermap.org from config.js
 
 // dependencies====================================================
 
 // const axios = require("axios");
 
-// API-key from openweathermap.org and city name===================
+// insert openweathermap.org api or import it from config.js=======
 
 // const API_KEY = "your API from openweathermap.org";
 // const { API_KEY } = require("./config.js");
 
-// import the functions from common.js==============================
+// insert functions here or import them from common.js==============
 
 const {
   // getUserIP,
@@ -24,6 +24,7 @@ const {
 } = require("./common.js");
 
 // Function to display the weather forecast===========================
+
 async function displayForecast() {
   const forecast = await getForecast();
   console.log("\n=============== Weather ===============\n");

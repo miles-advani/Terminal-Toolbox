@@ -1,23 +1,25 @@
 // =============================================================================
-
+// 
 // Project: toolbox/info.js
-// Created: 19.09.2021
+// Created: 13.02.2024
 // info.js is a simple Node.js script that uses
 // the ipify and ip-api and openweathermap APIs to
 // display the current location, date, time, and weather.
 // It also calculates the remaining days until a specific date.
+//
+// =============================================================================
 
 // dependencies================================================================
 
 // const axios = require("axios");
 const moment = require("moment");
 
-// API-key from openweathermap.org=============================================
+// insert openweathermap.org api or import it from config.js===================
 
 // const API_KEY = "your API from openweathermap.org";
 // const { API_KEY } = require("./config.js");
 
-// import the functions from common.js=========================================
+// insert functions here or import them from common.js=========================
 
 const {
   // getUserIP,
@@ -26,9 +28,6 @@ const {
   getWeather,
   getRemainingDays,
 } = require("./common.js");
-
-// start of inserted code=====================================================
-// end of inserted code=======================================================
 
 // Function for displaying date, time, and weather============================
 
