@@ -16,6 +16,10 @@
 const readline = require("readline");
 const math = require("mathjs");
 
+// import the functions from other files======================================================
+
+const { runMatrix } = require("./common.js");
+
 // Function to convert pixels to rem===========================================================
 
 function pxToRem(px, baseSize = 16) {
@@ -46,9 +50,9 @@ function askQuestion(query) {
 
 // Function to start the calculator=============================================================
 
-async function start() {
+async function startCalculator(goBackCallback) {
   const option = await askQuestion(
-    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n4. Exit \n\n> "
+    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\nb. Back\ne. Exit \n\n> "
   );
 
   switch (option) {
@@ -58,9 +62,9 @@ async function start() {
       );
       try {
         const result = math.evaluate(expression);
-        console.log(`\nThe result is: ${result}`);
+        console.log(`\n= ${result}\n`);
       } catch (error) {
-        console.log("\nInvalid expression");
+        console.log("\nInvalid expression\n");
       }
       break;
 
@@ -70,9 +74,9 @@ async function start() {
       );
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
-        console.log("\nInvalid input for pixels");
+        console.log("\nInvalid input for pixels\n");
       } else {
-        console.log(`\n${px} pixels is equal to ${rem} REM.`);
+        console.log(`\n${px} pixels is equal to ${rem} REM.\n`);
       }
       break;
 
@@ -82,33 +86,35 @@ async function start() {
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log("\nInvalid input for REM");
+        console.log("\nInvalid input for REM\n");
       } else {
-        console.log(`\n${remInput} REM is equal to ${pxResult} pixels.`);
+        console.log(`\n${remInput} REM is equal to ${pxResult} pixels.\n`);
       }
       break;
 
-      case "4":
-        console.log("\n--------------------------------------------------\n");
-        console.log("\nExiting the app. Goodbye!");
-        process.exit(0);
-        break;
+    case "b":
+      goBackCallback();
+      break;
+
+    case "e":
+      // console.log("\n--------------------------------------------------\n");
+      // console.log("\nExiting the app. Goodbye!");
+      runMatrix();
+      // process.exit(0);
+      break;
 
     default:
-      console.log(`\nInvalid option:\n\nPlease type in "1", "2" or "3".`);
+      console.log(`\nInvalid option:\n\nPlease type in "1", "2" or "3".\n`);
       break;
   }
 }
 
-// Call the start function to begin the calculator
-// start();
+// Call the function============================================================
 
-// end of calculator.js=========================================================
+// startCalculator();
 
 // exports======================================================================
 
-module.exports.calculatorApp = function calculatorApp() {
-  start();
-};
+module.exports = { startCalculator };
 
 // ==============================================================================

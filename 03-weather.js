@@ -56,12 +56,8 @@ async function displayForecast() {
 
 // displayForecast();
 
-// end of weather.js======================================================
-
 // exports================================================================
 
-module.exports.weatherApp = function weatherApp() {
-  displayForecast();
-};
+module.exports = { displayForecast };
 
 // =======================================================================

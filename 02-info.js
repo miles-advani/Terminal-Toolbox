@@ -74,14 +74,8 @@ async function displayInfo() {
 
 // displayInfo();
 
-// end of info.js=============================================================
-
 // export the functions=======================================================
 
-// module.exports.getInfo = function getInfo() {
-//   displayInfo();
-// };
+module.exports = { displayInfo };
 
-module.exports.infoApp = async function infoApp() {
-  await displayInfo();
-};
+// ===========================================================================s

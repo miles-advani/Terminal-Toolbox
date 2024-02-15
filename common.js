@@ -58,6 +58,60 @@ async function getLocalTime(location) {
   }
 }
 
+// Matrix======================================================================
+// ============================================================================
+// ============================================================================
+
+let readline, chalk;
+
+import("readline").then((module) => {
+  readline = module;
+});
+
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
+let lines = process.stdout.rows;
+let cols = process.stdout.columns;
+
+let letters =
+  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()";
+let colsArray = Array(cols).fill(0);
+
+function runMatrix() {
+  let intervalId = setInterval(() => {
+    let randomCol = Math.floor(Math.random() * cols);
+    let c = Math.floor(Math.random() * 72);
+    let letter = letters[c];
+    colsArray[randomCol] = 0;
+
+    for (let col = 0; col < colsArray.length; col++) {
+      let line = colsArray[col];
+      colsArray[col]++;
+
+      readline.cursorTo(process.stdout, col, line);
+      process.stdout.write(chalk.green(letter));
+
+      readline.cursorTo(process.stdout, col, colsArray[col]);
+      process.stdout.write(chalk.white(letter));
+
+      if (colsArray[col] >= lines) {
+        colsArray[col] = 0;
+      }
+    }
+  }, 50);
+
+  // Stop the animation after 2.5 seconds
+  setTimeout(() => {
+    clearInterval(intervalId);
+  }, 2500);
+}
+
+// call the function
+
+// runMatrix();
+
 // Export the functions=======================================================
 // ============================================================================
 
@@ -65,4 +119,5 @@ module.exports = {
   getUserIP,
   getUserLocation,
   getLocalTime,
+  runMatrix,
 };
