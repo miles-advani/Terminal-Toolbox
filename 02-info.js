@@ -58,7 +58,7 @@ async function displayInfo() {
   const weather = await getWeather();
   const remainingDays = getRemainingDays();
   console.log(
-    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n============================================================\n"
+    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<============================================================>\n"
   );
   console.log(`Location:  ${location}\n`);
   console.log(`Date:      ${moment(localTime).format("DD.MM.YYYY")}\n`);
@@ -66,7 +66,7 @@ async function displayInfo() {
   console.log(`Weather:   ${weather}°C\n`);
   console.log(`Days left: ${remainingDays}`);
   console.log(
-    "\n============================================================\n"
+    "\n<=========================== Apps ===========================>\n"
   );
 }
 

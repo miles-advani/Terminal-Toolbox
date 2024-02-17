@@ -52,51 +52,60 @@ function askQuestion(query) {
 
 async function startCalculator(goBackCallback) {
   const option = await askQuestion(
-    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\nb. Back\ne. Exit \n\n> "
+    "\n<============== Calculator ==============>\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n4. Back\n5. Exit \n\n> "
   );
 
   switch (option) {
     case "1":
       const expression = await askQuestion(
-        "\n--------------------------------------------------\n\nPlease enter a mathematical expression:\n\n> "
+        "\n----------------------------------------\n\nPlease enter a mathematical expression:\n\n> "
       );
       try {
         const result = math.evaluate(expression);
         console.log(`\n= ${result}\n`);
       } catch (error) {
-        console.log("\nInvalid expression\n");
+        console.log(
+          "\nInvalid expression:\nMake sure to use proper operators (+, -, *, /) and numbers.\n"
+        );
       }
+      await startCalculator(goBackCallback);
       break;
 
     case "2":
       const px = await askQuestion(
-        "\n--------------------------------------------------\n\nPlease enter the number of pixels you want to convert to REM:\n\n> "
+        "\n----------------------------------------\n\nPlease enter the number of pixels:\n\n> "
       );
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
-        console.log("\nInvalid input for pixels\n");
+        console.log("\nInvalid input for pixels. Please enter a number.\n"); // Improved error message
       } else {
         console.log(`\n${px} pixels is equal to ${rem} REM.\n`);
       }
+      await startCalculator(goBackCallback);
       break;
 
     case "3":
       const remInput = await askQuestion(
-        "\n--------------------------------------------------\n\nPlease enter the number of REM you want to convert to pixels:\n\n> "
+        "\n----------------------------------------\n\nPlease enter the number of REM:\n\n> "
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log("\nInvalid input for REM\n");
+        console.log("\nInvalid input for REM. Please enter a number.\n");
       } else {
         console.log(`\n${remInput} REM is equal to ${pxResult} pixels.\n`);
       }
+      await startCalculator(goBackCallback);
       break;
 
+    case "4":
     case "b":
+    case "B":
       goBackCallback();
       break;
 
+    case "5":
     case "e":
+    case "E":
       // console.log("\n--------------------------------------------------\n");
       // console.log("\nExiting the app. Goodbye!");
       runMatrix();
@@ -104,7 +113,10 @@ async function startCalculator(goBackCallback) {
       break;
 
     default:
-      console.log(`\nInvalid option:\n\nPlease type in "1", "2" or "3".\n`);
+      console.log(
+        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1" for Mathematical expression\n"2" for Convert pixels to REM\n"3" for Convert REM to pixels\n"4", "b", "B" for Go back\n"5", "e", "E" for Exit the app\n`
+      );
+      await startCalculator(goBackCallback);
       break;
   }
 }

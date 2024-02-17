@@ -44,13 +44,13 @@ async function startToDo(goBackCallback) {
   }
 
   const option = await askQuestion(
-    "\n--------------------------------------------------\n\nPlease select an option: \n\n1. Add a to-do \n2. Show to-do list \n\nb. Back\ne. Exit \n\n> "
+    "\n<================ To Do ================>\n\nPlease select an option: \n\n1. Add a to-do \n2. Show to-do list \n\n3. Back\n4. Exit \n\n> "
   );
 
   switch (option) {
     case "1":
       const toDo = await askQuestion(
-        "\n--------------------------------------------------\n\nPlease enter a to-do:\n\n> "
+        "\n----------------------------------------\n\nPlease enter a to-do:\n\n> "
       );
       toDoList.push(toDo);
       await fs.writeFile("todoList.txt", toDoList.join("\n"));
@@ -58,7 +58,7 @@ async function startToDo(goBackCallback) {
       break;
 
     case "2":
-      console.log("\n--------------------------------------------------\n");
+      console.log("\n<================ To Do ================>\n");
       toDoList.forEach((item, index) => {
         console.log(`${index + 1}. ${item}`);
       });
@@ -66,11 +66,15 @@ async function startToDo(goBackCallback) {
       startToDo(goBackCallback);
       break;
 
+    case "3":
     case "b":
+    case "B":
       goBackCallback();
       break;
 
+    case "4":
     case "e":
+    case "E":
       // console.log("\n--------------------------------------------------\n");
       // console.log("\nExiting the app. Goodbye!");
       runMatrix();
@@ -78,7 +82,9 @@ async function startToDo(goBackCallback) {
       break;
 
     default:
-      console.log(`\nInvalid option:\n\nPlease type in "1" or "2".\n`);
+      console.log(
+        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1" for Add a to-do\n"2" for Display to-do list\n"3", "b", "B" for Go back\n"4", "e", "E" for Exit the app\n`
+      );
       startToDo(goBackCallback);
   }
 }

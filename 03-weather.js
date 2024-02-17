@@ -20,12 +20,27 @@ const { API_KEY } = require("./config.js");
 // import functions from other files==========================================
 
 const {
-  // getUserIP,
+  // getUserIP, // used by getUserLocation
   getUserLocation,
+  runMatrix,
   // getLocalTime // not used in this file but file is not working without it?
 } = require("./common.js");
-// const { start } = require("repl");
-// const { startApp } = require("./app-manager.js");
+// const { runMatrix } = require("./common.js");
+
+// Function to get the weather forecast based on the user's location==========
+
+async function getForecast() {
+  //   const city = await getUserLocation();º
+  const location = await getUserLocation();
+  try {
+    const response = await axios.get(
+      `http://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`
+    );
+    return response.data.list;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 // function to call the menu==================================================
 
@@ -43,64 +58,52 @@ function askQuestion(query) {
   );
 }
 
-// function to display the options after the forecast==========================
-
-async function postForecastOptions(goBackCallback) {
-  const option = await askQuestion(
-    "\nPlease select an option: \n\n1. Refresh forecast \n2. Go back \n3. Exit \n\n> "
-  );
-
-  switch (option) {
-    case "1":
-      // Refresh the forecast
-      await displayForecast();
-      break;
-
-    case "2":
-      // Go back
-      goBackCallback();
-      break;
-
-    case "3":
-      // Exit the app
-      process.exit(0);
-      break;
-
-    default:
-      console.log(`\nInvalid option:\n\nPlease type in "1", "2", or "3".\n`);
-      postForecastOptions(goBackCallback);
-  }
-}
-
-// Function to get the weather forecast based on the user's location==========
-
-async function getForecast() {
-  //   const city = await getUserLocation();º
-  const location = await getUserLocation();
-  try {
-    const response = await axios.get(
-      `http://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=${API_KEY}&units=metric`
-    );
-    return response.data.list;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
 // Function to display the weather forecast=================================
 
-async function displayForecast() {
+async function displayForecast(goBackCallback) {
   const forecast = await getForecast();
-  console.log("\n=============== Weather ===============\n");
+  console.log("\n<=============== Weather ===============>\n");
 
   forecast.forEach((item) => {
     console.log(`Date and time: ${item.dt_txt}`);
     console.log(`Temperature: ${item.main.temp}°C`);
     console.log(`Weather: ${item.weather[0].description}`);
-    console.log("-------------------------");
+    console.log("-----------------------------------");
   });
 
-  postForecastOptions(startApp);
+  const option = await askQuestion(
+    "\nPlease select an option:\n\n1. Refresh\n2. Back \n3. Exit \n\n> "
+  );
+
+  switch (option) {
+    case "1":
+    case "r":
+    case "R":
+      // Refresh the forecast
+      await displayForecast(goBackCallback);
+      break;
+
+    case "2":
+    case "b":
+    case "B":
+      // Go back
+      goBackCallback();
+      break;
+
+    case "3":
+    case "e":
+    case "E":
+      // Exit the app
+      // process.exit(0);
+      runMatrix();
+      break;
+
+    default:
+      console.log(
+        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "r", "R" for Refresh the forecast\n"2", "b", "B" for Go back\n"3", "e", "E" for Exit the app\n`
+      );
+      await displayForecast(goBackCallback);
+  }
 }
 
 // call the function======================================================
