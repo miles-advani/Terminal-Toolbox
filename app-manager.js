@@ -2,6 +2,11 @@
 
 // dependencies=================================================================
 
+let chalk;
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
 const readline = require("readline");
 
 // import the functions from other files==========================================
@@ -9,10 +14,10 @@ const readline = require("readline");
 // const { infoApp } = require("./02-info.js");
 const { displayInfo } = require("./02-info.js");
 const { displayForecast } = require("./03-weather.js");
-const { start, startCalculator } = require("./04-calculator.js");
+const { startCalculator } = require("./04-calculator.js");
 const { startToDo } = require("./05-to-do.js");
 const { displayJoke } = require("./07-joke.js");
-const { runMatrix } = require("./common.js");
+const { runMatrix, frameError } = require("./common.js");
 
 // function to start the app=======================================================
 
@@ -43,9 +48,18 @@ async function startApp() {
         runMatrix();
         // process.exit(0);
       } else {
-        console.log(
-          `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "w", "W" for Weather Forecast\n"2", "c", "C" for Calculator\n"3", "t", "T" for To Do List\n"4", "j", "J" for Random Joke\n"5", "r", "R" for Reload\n"6", "e", "E" for Exit\n`
-        );
+        // console.log(
+        //   chalk.red(`\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "w", "W" for Weather Forecast\n"2", "c", "C" for Calculator\n"3", "t", "T" for To Do List\n"4", "j", "J" for Random Joke\n"5", "r", "R" for Refresh\n"6", "e", "E" for Exit\n`
+        // ));
+        console.log(frameError(
+          chalk.red(`\nInvalid option:\n\nPlease type in one of the following options:\n\n`) +
+          chalk.green(`"1", "w", "W"`) + chalk.red(` for Weather Forecast\n`) +
+          chalk.green(`"2", "c", "C"`) + chalk.red(` for Calculator\n`) +
+          chalk.green(`"3", "t", "T"`) + chalk.red(` for To Do List\n`) +
+          chalk.green(`"4", "j", "J"`) + chalk.red(` for Random Joke\n`) +
+          chalk.green(`"5", "r", "R"`) + chalk.red(` for Refresh\n`) +
+          chalk.green(`"6", "e", "E"`) + chalk.red(` for Exit\n`)
+        ));
         startApp();
       }
     }

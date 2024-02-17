@@ -13,12 +13,17 @@
 
 // dependencies==============================================================================
 
+let chalk;
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
 const readline = require("readline");
 const math = require("mathjs");
 
 // import the functions from other files======================================================
 
-const { runMatrix } = require("./common.js");
+const { frameError, runMatrix } = require("./common.js");
 
 // Function to convert pixels to rem===========================================================
 
@@ -52,20 +57,39 @@ function askQuestion(query) {
 
 async function startCalculator(goBackCallback) {
   const option = await askQuestion(
-    "\n<============== Calculator ==============>\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n4. Back\n5. Exit \n\n> "
+    `\n` +
+      `<` +
+      `==============` +
+      ` Calculator ` +
+      `==============` +
+      `>` +
+      `\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n4. Back\n5. Exit ` +
+      `\n\n` +
+      chalk.green(`> `)
   );
 
   switch (option) {
     case "1":
       const expression = await askQuestion(
-        "\n----------------------------------------\n\nPlease enter a mathematical expression:\n\n> "
+        `\n` +
+          `-`.repeat(40) +
+          `\n\nPlease enter a mathematical expression:` +
+          `\n\n` +
+          chalk.green(`> `)
       );
       try {
         const result = math.evaluate(expression);
         console.log(`\n= ${result}\n`);
       } catch (error) {
+        // console.log(
+        //   "\nInvalid expression:\nMake sure to use proper operators (+, -, *, /) and numbers.\n"
+        // );
         console.log(
-          "\nInvalid expression:\nMake sure to use proper operators (+, -, *, /) and numbers.\n"
+          frameError(
+            chalk.red(`\nInvalid expression:\nMake sure to use proper operators `
+          ) +
+            chalk.green(`(+, -, *, /) and numbers.\n`)
+          )
         );
       }
       await startCalculator(goBackCallback);
@@ -73,11 +97,22 @@ async function startCalculator(goBackCallback) {
 
     case "2":
       const px = await askQuestion(
-        "\n----------------------------------------\n\nPlease enter the number of pixels:\n\n> "
+        `\n` +
+          `-`.repeat(40) +
+          `\n\n` +
+          `Please enter the number of Pixels:` +
+          `\n\n` +
+          chalk.green(`> `)
       );
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
-        console.log("\nInvalid input for pixels. Please enter a number.\n"); // Improved error message
+        // console.log("\nInvalid input for pixels. Please enter a number.\n");
+        console.log(
+          frameError(
+            chalk.red(`\nInvalid input for Pixels. Please enter a `) +
+              chalk.green(`number.\n`)
+          )
+        );
       } else {
         console.log(`\n${px} pixels is equal to ${rem} REM.\n`);
       }
@@ -86,11 +121,22 @@ async function startCalculator(goBackCallback) {
 
     case "3":
       const remInput = await askQuestion(
-        "\n----------------------------------------\n\nPlease enter the number of REM:\n\n> "
+        `\n` +
+          `-`.repeat(40) +
+          `\n\n` +
+          `Please enter the number of REM:` +
+          `\n\n` +
+          chalk.green(`> `)
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log("\nInvalid input for REM. Please enter a number.\n");
+        // console.log("\nInvalid input for REM. Please enter a number.\n");
+        console.log(
+          frameError(
+            chalk.red(`\nInvalid input for REM. Please enter a `) +
+              chalk.green(`number.\n`)
+          )
+        );
       } else {
         console.log(`\n${remInput} REM is equal to ${pxResult} pixels.\n`);
       }
@@ -113,8 +159,32 @@ async function startCalculator(goBackCallback) {
       break;
 
     default:
+      // console.log(
+      //   `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1" for Mathematical expression\n"2" for Convert pixels to REM\n"3" for Convert REM to pixels\n"4", "b", "B" for Go back\n"5", "e", "E" for Exit the app\n`
+      // );
       console.log(
-        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1" for Mathematical expression\n"2" for Convert pixels to REM\n"3" for Convert REM to pixels\n"4", "b", "B" for Go back\n"5", "e", "E" for Exit the app\n`
+        frameError(
+          ` \n` +
+            chalk.red(`Invalid option:`) +
+            ` \n \n` +
+            chalk.red(`Please type in one of the following options:`) +
+            ` \n \n` +
+            chalk.green(`"1"`) +
+            chalk.red(` for Mathematical expression`) +
+            ` \n` +
+            chalk.green(`"2"`) +
+            chalk.red(` for Convert pixels to REM`) +
+            ` \n` +
+            chalk.green(`"3"`) +
+            chalk.red(` for Convert REM to pixels`) +
+            ` \n` +
+            chalk.green(`"4", "b", "B"`) +
+            chalk.red(` for Go back`) +
+            ` \n` +
+            chalk.green(`"5", "e", "E"`) +
+            chalk.red(` for Exit the app`) +
+            ` \n`
+        )
       );
       await startCalculator(goBackCallback);
       break;

@@ -5,6 +5,16 @@
 //
 // dependencies================================================================
 
+// let chalk;
+// import("chalk").then((module) => {
+//   chalk = module.default;
+// });
+
+let stripAnsi;
+import("strip-ansi").then((module) => {
+  stripAnsi = module.default;
+});
+
 const axios = require("axios");
 // const moment = require("moment");
 // const math = require("mathjs");
@@ -56,6 +66,49 @@ async function getLocalTime(location) {
   } catch (error) {
     console.error(error);
   }
+}
+
+// style======================================================================
+// ============================================================================
+// function to frame error messages in red======================================
+
+// function frameError(message) {
+//   const lines = message.split("\n");
+//   const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
+//   const border = chalk.red("-".repeat(maxLength + 4)); // Rahmenlinie
+
+//   let result = border + "\n";
+//   for (const line of lines) {
+//     result +=
+//       chalk.red("| ") +
+//       line +
+//       chalk.red(" ".repeat(maxLength - line.length) + " |") +
+//       "\n";
+//   }
+//   result += border;
+
+//   return result;
+// }
+
+function frameError(message) {
+  const lines = message.split("\n").map((line) => stripAnsi(line));
+  const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
+  const borderLength = maxLength % 2 === 0 ? maxLength + 4 : maxLength + 3; // Rahmenlänge berechnen
+  const border = chalk.red("-".repeat(borderLength)); // Rahmenlinie
+
+  let result = border + "\n";
+  for (const line of message.split("\n")) {
+    const paddingLength = borderLength - stripAnsi(line).length - 3; // Anzahl der zusätzlichen Leerzeichen berechnen
+    result +=
+      chalk.red("| ") +
+      line +
+      " ".repeat(paddingLength) +
+      chalk.red(" |") +
+      "\n";
+  }
+  result += border;
+
+  return result;
 }
 
 // Matrix======================================================================
@@ -119,5 +172,6 @@ module.exports = {
   getUserIP,
   getUserLocation,
   getLocalTime,
+  frameError,
   runMatrix,
 };

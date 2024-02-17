@@ -9,13 +9,17 @@
 
 // dependencies====================================================================
 
+let chalk;
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
 const axios = require("axios");
-const { mod } = require("mathjs");
 const readline = require("readline");
 
 // import the functions from other files============================================
 
-const { runMatrix } = require("./common.js");
+const { frameError, runMatrix } = require("./common.js");
 
 // function to get a random joke from the icanhazdadjoke.com api=====================
 
@@ -84,7 +88,22 @@ async function displayJoke(goBackCallback) {
 
     default:
       console.log(
-        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "r", "R" for Refresh the joke\n"2", "b", "B" for Go back\n"3", "e", "E" for Exit the app\n`
+        frameError(
+          ` \n` +
+            chalk.red(`Invalid option:`) +
+            ` \n \n` +
+            chalk.red(`Please type in one of the following options:`) +
+            ` \n \n` +
+            chalk.green(`"1"`) +
+            chalk.red(` for Refresh the joke`) +
+            ` \n` +
+            chalk.green(`"2"`) +
+            chalk.red(` for Go back`) +
+            ` \n` +
+            chalk.green(`"3"`) +
+            chalk.red(` for Exit the app`) +
+            ` \n`
+        )
       );
       await displayJoke(goBackCallback);
   }

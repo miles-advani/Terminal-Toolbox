@@ -8,6 +8,11 @@
 
 // dependencies===============================================================
 
+let chalk;
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
 const axios = require("axios");
 const readline = require("readline");
 
@@ -23,6 +28,7 @@ const {
   // getUserIP, // used by getUserLocation
   getUserLocation,
   runMatrix,
+  frameError,
   // getLocalTime // not used in this file but file is not working without it?
 } = require("./common.js");
 // const { runMatrix } = require("./common.js");
@@ -68,7 +74,7 @@ async function displayForecast(goBackCallback) {
     console.log(`Date and time: ${item.dt_txt}`);
     console.log(`Temperature: ${item.main.temp}°C`);
     console.log(`Weather: ${item.weather[0].description}`);
-    console.log("-----------------------------------");
+    console.log(chalk.green("-----------------------------------"));
   });
 
   const option = await askQuestion(
@@ -99,8 +105,19 @@ async function displayForecast(goBackCallback) {
       break;
 
     default:
-      console.log(
-        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "r", "R" for Refresh the forecast\n"2", "b", "B" for Go back\n"3", "e", "E" for Exit the app\n`
+      // console.log(
+      //   `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "r", "R" for Refresh the forecast\n"2", "b", "B" for Go back\n"3", "e", "E" for Exit the app\n`
+      // );
+      console.log(frameError(
+        chalk.red(
+          `\nInvalid option:\n\nPlease type in one of the following options:\n\n`
+        ) +
+          chalk.green(`"1", "r", "R"`) +
+          chalk.red(` for Refresh the forecast\n`) +
+          chalk.green(`"2", "b", "B"`) +
+          chalk.red(` for Go back\n`) +
+          chalk.green(`"3", "e", "E"`) +
+          chalk.red(` for Exit the app\n`))
       );
       await displayForecast(goBackCallback);
   }

@@ -9,12 +9,17 @@
 
 // dependencies=================================================================
 
+let chalk;
+import("chalk").then((module) => {
+  chalk = module.default;
+});
+
 const readline = require("readline");
 const fs = require("fs").promises;
 
 // import the functions from other files==========================================
 
-const { runMatrix } = require("./common.js");
+const { frameError, runMatrix } = require("./common.js");
 
 // function to ask a question and get user input==================================
 
@@ -83,7 +88,25 @@ async function startToDo(goBackCallback) {
 
     default:
       console.log(
-        `\nInvalid option:\n\nPlease type in one of the following options:\n\n"1" for Add a to-do\n"2" for Display to-do list\n"3", "b", "B" for Go back\n"4", "e", "E" for Exit the app\n`
+        frameError(
+          ` \n` +
+            chalk.red(`Invalid option:`) +
+            ` \n \n` +
+            chalk.red(`Please type in one of the following options:`) +
+            ` \n \n` +
+            chalk.green(`"1"`) +
+            chalk.red(` for Add a to-do`) +
+            ` \n` +
+            chalk.green(`"2"`) +
+            chalk.red(` for Show to-do list`) +
+            ` \n` +
+            chalk.green(`"3", "b", "B"`) +
+            chalk.red(` for Go back`) +
+            ` \n` +
+            chalk.green(`"4", "e", "E"`) +
+            chalk.red(` for Exit the app`) +
+            ` \n`
+        )
       );
       startToDo(goBackCallback);
   }
