@@ -30,7 +30,15 @@ async function startApp() {
   });
 
   rl.question(
-    "\nPlease select an option: \n\n1. Weather Forecast \n2. Calculator\n3. To Do List\n4. Random Joke\n\n5. Refresh\n6. Exit \n\n> ",
+    `${chalk.yellow("\nPlease select an option: \n\n")}${chalk.green(
+      "1."
+    )}${chalk.yellow(" Weather Forecast \n")}${chalk.green("2.")}${chalk.yellow(
+      " Calculator\n"
+    )}${chalk.green("3.")}${chalk.yellow(" To Do List\n")}${chalk.green(
+      "4."
+    )}${chalk.yellow(" Random Joke\n\n")}${chalk.green("5.")}${chalk.yellow(
+      " Refresh\n"
+    )}${chalk.green("6.")}${chalk.yellow(" Exit \n\n")}${chalk.green(">")} `,
     (answer) => {
       rl.close();
       if (answer === "1" || answer === "w" || answer === "W") {
@@ -51,15 +59,25 @@ async function startApp() {
         // console.log(
         //   chalk.red(`\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "w", "W" for Weather Forecast\n"2", "c", "C" for Calculator\n"3", "t", "T" for To Do List\n"4", "j", "J" for Random Joke\n"5", "r", "R" for Refresh\n"6", "e", "E" for Exit\n`
         // ));
-        console.log(frameError(
-          chalk.red(`\nInvalid option:\n\nPlease type in one of the following options:\n\n`) +
-          chalk.green(`"1", "w", "W"`) + chalk.red(` for Weather Forecast\n`) +
-          chalk.green(`"2", "c", "C"`) + chalk.red(` for Calculator\n`) +
-          chalk.green(`"3", "t", "T"`) + chalk.red(` for To Do List\n`) +
-          chalk.green(`"4", "j", "J"`) + chalk.red(` for Random Joke\n`) +
-          chalk.green(`"5", "r", "R"`) + chalk.red(` for Refresh\n`) +
-          chalk.green(`"6", "e", "E"`) + chalk.red(` for Exit\n`)
-        ));
+        console.log(
+          frameError(
+            chalk.red(
+              `\nInvalid option:\n\nPlease type in one of the following options:\n\n`
+            ) +
+              chalk.green(`"1", "w", "W"`) +
+              chalk.red(` for Weather Forecast\n`) +
+              chalk.green(`"2", "c", "C"`) +
+              chalk.red(` for Calculator\n`) +
+              chalk.green(`"3", "t", "T"`) +
+              chalk.red(` for To Do List\n`) +
+              chalk.green(`"4", "j", "J"`) +
+              chalk.red(` for Random Joke\n`) +
+              chalk.green(`"5", "r", "R"`) +
+              chalk.red(` for Refresh\n`) +
+              chalk.green(`"6", "e", "E"`) +
+              chalk.red(` for Exit\n`)
+          )
+        );
         startApp();
       }
     }

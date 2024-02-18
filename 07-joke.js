@@ -57,10 +57,14 @@ function askQuestion(query) {
 
 async function displayJoke(goBackCallback) {
   const joke = await getJoke();
-  console.log("\n", joke);
+  console.log("\n", chalk.green(joke));
 
   const option = await askQuestion(
-    "\nPlease select an option:\n\n1: Refresh\n2: Back \n3: Exit \n\n> "
+    `${chalk.yellow("\nPlease select an option: \n\n")}${chalk.green(
+      "1."
+    )}${chalk.yellow(" Refresh \n")}${chalk.green("2.")}${chalk.yellow(
+      " Back\n"
+    )}${chalk.green("3.")}${chalk.yellow(" Exit\n\n")}${chalk.green("> ")}`
   );
 
   switch (option) {

@@ -58,13 +58,15 @@ function askQuestion(query) {
 async function startCalculator(goBackCallback) {
   const option = await askQuestion(
     `\n` +
-      `<` +
-      `==============` +
-      ` Calculator ` +
-      `==============` +
-      `>` +
-      `\n\nPlease select an option: \n\n1. Calculate a mathematical expression \n2. Convert pixels to REM \n3. Convert REM to pixels \n\n4. Back\n5. Exit ` +
-      `\n\n` +
+    chalk.yellow(`Calculator `) +
+      chalk.green(`=================================` +
+      `>`) +
+      chalk.yellow(`\n\nPlease select an option: \n\n`) +
+    chalk.green(`1.`) + chalk.yellow(` Calculate a mathematical expression \n`) +
+    chalk.green(`2.`) + chalk.yellow(` Convert pixels to REM \n`) +
+    chalk.green(`3.`) + chalk.yellow(` Convert REM to pixels \n\n`) +
+    chalk.green(`4.`) + chalk.yellow(` Back\n`) +
+    chalk.green(`5.`) + chalk.yellow(` Exit \n\n`) +
       chalk.green(`> `)
   );
 
@@ -72,23 +74,23 @@ async function startCalculator(goBackCallback) {
     case "1":
       const expression = await askQuestion(
         `\n` +
-          `-`.repeat(40) +
-          `\n\nPlease enter a mathematical expression:` +
+        chalk.green(`-`.repeat(44) + `>`) +
+          chalk.yellow(`\n\nPlease enter a mathematical expression:`) +
           `\n\n` +
           chalk.green(`> `)
       );
       try {
         const result = math.evaluate(expression);
-        console.log(`\n= ${result}\n`);
+        console.log(chalk.green(`\n= ${result}\n`));
       } catch (error) {
         // console.log(
         //   "\nInvalid expression:\nMake sure to use proper operators (+, -, *, /) and numbers.\n"
         // );
         console.log(
           frameError(
-            chalk.red(`\nInvalid expression:\nMake sure to use proper operators `
-          ) +
-            chalk.green(`(+, -, *, /) and numbers.\n`)
+            chalk.red(
+              `\nInvalid expression:\nMake sure to use proper operators `
+            ) + chalk.green(`(+, -, *, /) and numbers.\n`)
           )
         );
       }
@@ -98,9 +100,9 @@ async function startCalculator(goBackCallback) {
     case "2":
       const px = await askQuestion(
         `\n` +
-          `-`.repeat(40) +
+        chalk.green(`-`.repeat(44) + `>`) +
           `\n\n` +
-          `Please enter the number of Pixels:` +
+          chalk.yellow(`Please enter the number of Pixels:`) +
           `\n\n` +
           chalk.green(`> `)
       );
@@ -114,7 +116,7 @@ async function startCalculator(goBackCallback) {
           )
         );
       } else {
-        console.log(`\n${px} pixels is equal to ${rem} REM.\n`);
+        console.log(chalk.green(`\n${px} px = ${rem} rem\n`));
       }
       await startCalculator(goBackCallback);
       break;
@@ -122,9 +124,9 @@ async function startCalculator(goBackCallback) {
     case "3":
       const remInput = await askQuestion(
         `\n` +
-          `-`.repeat(40) +
+        chalk.green(`-`.repeat(44) + `>`) +
           `\n\n` +
-          `Please enter the number of REM:` +
+          chalk.yellow(`Please enter the number of REM:`) +
           `\n\n` +
           chalk.green(`> `)
       );
@@ -138,7 +140,7 @@ async function startCalculator(goBackCallback) {
           )
         );
       } else {
-        console.log(`\n${remInput} REM is equal to ${pxResult} pixels.\n`);
+        console.log(chalk.green(`\n${remInput} rem = ${pxResult} px\n`));
       }
       await startCalculator(goBackCallback);
       break;

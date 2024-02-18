@@ -49,13 +49,30 @@ async function startToDo(goBackCallback) {
   }
 
   const option = await askQuestion(
-    "\n<================ To Do ================>\n\nPlease select an option: \n\n1. Add a to-do \n2. Show to-do list \n\n3. Back\n4. Exit \n\n> "
+    `\n` +
+      chalk.yellow(`To Do List `) +
+      chalk.green(`=================================` + `>`) +
+      chalk.yellow(`\n\nPlease select an option: \n\n`) +
+      chalk.green(`1.`) +
+      chalk.yellow(` Add a to-do \n`) +
+      chalk.green(`2.`) +
+      chalk.yellow(` Show to-do list \n\n`) +
+      chalk.green(`3.`) +
+      chalk.yellow(` Back \n`) +
+      chalk.green(`4.`) +
+      chalk.yellow(` Exit\n\n`) +
+      chalk.green(`> `)
+    // "\n<================ To Do ================>\n\nPlease select an option: \n\n1. Add a to-do \n2. Show to-do list \n\n3. Back\n4. Exit \n\n> "
   );
 
   switch (option) {
     case "1":
       const toDo = await askQuestion(
-        "\n----------------------------------------\n\nPlease enter a to-do:\n\n> "
+        `\n` +
+          chalk.green(`-`.repeat(44) + `>`) +
+          chalk.yellow(`\n\nPlease enter a to-do:`) +
+          `\n\n` +
+          chalk.green(`> `)
       );
       toDoList.push(toDo);
       await fs.writeFile("todoList.txt", toDoList.join("\n"));
@@ -63,9 +80,10 @@ async function startToDo(goBackCallback) {
       break;
 
     case "2":
-      console.log("\n<================ To Do ================>\n");
+      console.log(`\n` +
+      chalk.green(`-`.repeat(44) + `>`) + `\n`);
       toDoList.forEach((item, index) => {
-        console.log(`${index + 1}. ${item}`);
+        console.log(chalk.green(`${index + 1}. ${item}`));
       });
       // console.log("\n--------------------------------------------------\n");
       startToDo(goBackCallback);
