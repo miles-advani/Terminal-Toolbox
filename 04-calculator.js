@@ -59,7 +59,7 @@ async function startCalculator(goBackCallback) {
   const option = await askQuestion(
     `\n` +
     chalk.yellow(`Calculator `) +
-      chalk.green(`=================================` +
+      chalk.green(`=`.repeat(33) +
       `>`) +
       chalk.yellow(`\n\nPlease select an option: \n\n`) +
     chalk.green(`1.`) + chalk.yellow(` Calculate a mathematical expression \n`) +

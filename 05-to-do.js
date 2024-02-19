@@ -50,8 +50,9 @@ async function startToDo(goBackCallback) {
 
   const option = await askQuestion(
     `\n` +
-      chalk.yellow(`To Do List `) +
-      chalk.green(`=================================` + `>`) +
+    chalk.yellow(`To Do List `) +
+      chalk.green(`=`.repeat(33) +
+      `>`) +
       chalk.yellow(`\n\nPlease select an option: \n\n`) +
       chalk.green(`1.`) +
       chalk.yellow(` Add a to-do \n`) +

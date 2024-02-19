@@ -90,20 +90,68 @@ async function getLocalTime(location) {
 //   return result;
 // }
 
+// function to frame error messages in red======================================
+
+// function frameError(message) {
+//   const lines = message.split("\n").map((line) => stripAnsi(line));
+//   const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
+//   const borderLength = maxLength % 2 === 0 ? maxLength + 4 : maxLength + 3; // Rahmenlänge berechnen
+//   const border = chalk.red("-".repeat(borderLength)); // Rahmenlinie
+
+//   let result = border + "\n";
+//   for (const line of message.split("\n")) {
+//     const paddingLength = borderLength - stripAnsi(line).length - 3; // Anzahl der zusätzlichen Leerzeichen berechnen
+//     result +=
+//       chalk.red("| ") +
+//       line +
+//       " ".repeat(paddingLength) +
+//       chalk.red(" |") +
+//       "\n";
+//   }
+//   result += border;
+
+//   return result;
+// }
+
+// function to frame error messages in red=====================================
+
 function frameError(message) {
-  const lines = message.split("\n").map((line) => stripAnsi(line));
-  const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
-  const borderLength = maxLength % 2 === 0 ? maxLength + 4 : maxLength + 3; // Rahmenlänge berechnen
-  const border = chalk.red("-".repeat(borderLength)); // Rahmenlinie
+  const lines = message.split("\n");
+  const maxLength = Math.max(...lines.map((line) => stripAnsi(line).length)); // calculate the length of the longest line
+  const borderLength = maxLength + 4; // calculate the length of the border
+  const border = chalk.red("-".repeat(borderLength)); // frame line
 
   let result = border + "\n";
-  for (const line of message.split("\n")) {
-    const paddingLength = borderLength - stripAnsi(line).length - 3; // Anzahl der zusätzlichen Leerzeichen berechnen
+  for (const line of lines) {
+    const paddingLength = borderLength - stripAnsi(line).length - 4; // number of additional spaces
     result +=
       chalk.red("| ") +
       line +
       " ".repeat(paddingLength) +
       chalk.red(" |") +
+      "\n";
+  }
+  result += border;
+
+  return result;
+}
+
+// function for green info frame==================================================
+
+function frameInfo(message) {
+  const lines = message.split("\n");
+  const maxLength = Math.max(...lines.map((line) => stripAnsi(line).length)); // calculate the length of the longest line
+  const borderLength = maxLength + 4; // calculate the length of the border
+  const border = chalk.green("=".repeat(borderLength)); // frame line
+
+  let result = border + "\n";
+  for (const line of lines) {
+    const paddingLength = borderLength - stripAnsi(line).length - 4; // number of additional spaces
+    result +=
+      chalk.green("| ") +
+      line +
+      " ".repeat(paddingLength) +
+      chalk.green(" |") +
       "\n";
   }
   result += border;
@@ -173,5 +221,6 @@ module.exports = {
   getUserLocation,
   getLocalTime,
   frameError,
+  frameInfo,
   runMatrix,
 };

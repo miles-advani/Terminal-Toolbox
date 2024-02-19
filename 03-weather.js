@@ -68,7 +68,10 @@ function askQuestion(query) {
 
 async function displayForecast(goBackCallback) {
   const forecast = await getForecast();
-  console.log("\n<=============== Weather ===============>\n");
+  console.log( `\n` +
+  chalk.yellow(`Weather `) +
+    chalk.green(`=`.repeat(36) +
+    `>`)+ `\n`);
 
   forecast.forEach((item) => {
     console.log(`Date and time: ${item.dt_txt}`);

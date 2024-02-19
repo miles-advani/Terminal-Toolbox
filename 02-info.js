@@ -30,6 +30,7 @@ const {
   // getUserIP,
   getUserLocation,
   getLocalTime,
+  frameInfo,
 } = require("./common.js");
 
 // function for getting the weather based on the user's location===============
@@ -63,21 +64,37 @@ async function displayInfo() {
   const weather = await getWeather();
   const remainingDays = getRemainingDays();
   console.log(`\n`.repeat(20));
-  console.log(
-    chalk.green(
-      "\n============================================================>\n"
-    )
+  console.log(`\n` + chalk.yellow(`Info `) + chalk.green(`=`.repeat(54) + `>`) + `\n`);
+  console.log(` `.repeat(5) +
+    chalk.yellow(`Time:`) +
+      `      ${chalk.green(moment(localTime).format("HH:mm:ss"))}\n`
   );
-  console.log(chalk.yellow(`Time:`)+`      ${chalk.green(moment(localTime).format("HH:mm:ss"))}\n`);
-  // console.log(`Location:  ${location}\n`);
-  console.log(chalk.yellow(`Date:`) + `      ${chalk.green(moment(localTime).format("DD.MM.YYYY"))} ` + chalk.green(`(${remainingDays} Days)\n`));
-  console.log(chalk.yellow(`Weather:`) + `   ${chalk.green(weather + '°C')} ` + chalk.green(`(${location})`));
-  // console.log(`Days left: ${remainingDays} `);
-  console.log(
-    chalk.green(
-      "\n============================================================>\n"
-    )
+  console.log(` `.repeat(5) +
+    chalk.yellow(`Date:`) +
+      `      ${chalk.green(moment(localTime).format("DD.MM.YYYY"))} ` +
+      chalk.green(`(${remainingDays} Days)\n`)
   );
+  console.log(` `.repeat(5) +
+    chalk.yellow(`Weather:`) +
+      `   ${chalk.green(weather + "°C")} ` +
+      chalk.green(`(${location})`)
+  );
+  console.log(
+    `\n` + chalk.yellow(`Apps `) + chalk.green(`=`.repeat(54) + `>`) + `\n`
+  );
+
+  // let message =
+  // `\n` +
+  //   chalk.yellow(`Time:`) +
+  //   `      ${chalk.green(moment(localTime).format("HH:mm:ss"))}\n\n` +
+  //   chalk.yellow(`Date:`) +
+  //   `      ${chalk.green(moment(localTime).format("DD.MM.YYYY"))} ` +
+  //   chalk.green(`(${remainingDays} Days)\n\n`) +
+  //   chalk.yellow(`Weather:`) +
+  //   `   ${chalk.green(weather + "°C")} ` +
+  //   chalk.green(`(${location})`)+`\n`;
+
+  // console.log(frameInfo(message));
 }
 
 // call the function==========================================================
