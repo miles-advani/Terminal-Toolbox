@@ -1,5 +1,7 @@
 // ============================================================================
 //
+// project: toolbox/common.js
+// date: 13.02.2024
 // common.js is a file that contains functions that are used by multiple files.
 // ip and location functions are used by 02-info.js, 03-weather.js
 //
@@ -16,14 +18,6 @@ import("strip-ansi").then((module) => {
 });
 
 const axios = require("axios");
-// const moment = require("moment");
-// const math = require("mathjs");
-// const readline = require("readline");
-
-// insert openweathermap.org api or import it from config.js===================
-
-// const API_KEY = "enter your API from openweathermap.org";
-// const { API_KEY } = require("./config.js");
 
 // location====================================================================
 // ============================================================================
@@ -71,49 +65,6 @@ async function getLocalTime(location) {
 // style======================================================================
 // ============================================================================
 // function to frame error messages in red======================================
-
-// function frameError(message) {
-//   const lines = message.split("\n");
-//   const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
-//   const border = chalk.red("-".repeat(maxLength + 4)); // Rahmenlinie
-
-//   let result = border + "\n";
-//   for (const line of lines) {
-//     result +=
-//       chalk.red("| ") +
-//       line +
-//       chalk.red(" ".repeat(maxLength - line.length) + " |") +
-//       "\n";
-//   }
-//   result += border;
-
-//   return result;
-// }
-
-// function to frame error messages in red======================================
-
-// function frameError(message) {
-//   const lines = message.split("\n").map((line) => stripAnsi(line));
-//   const maxLength = Math.max(...lines.map((line) => line.length)); // Länge der längsten Zeile berechnen
-//   const borderLength = maxLength % 2 === 0 ? maxLength + 4 : maxLength + 3; // Rahmenlänge berechnen
-//   const border = chalk.red("-".repeat(borderLength)); // Rahmenlinie
-
-//   let result = border + "\n";
-//   for (const line of message.split("\n")) {
-//     const paddingLength = borderLength - stripAnsi(line).length - 3; // Anzahl der zusätzlichen Leerzeichen berechnen
-//     result +=
-//       chalk.red("| ") +
-//       line +
-//       " ".repeat(paddingLength) +
-//       chalk.red(" |") +
-//       "\n";
-//   }
-//   result += border;
-
-//   return result;
-// }
-
-// function to frame error messages in red=====================================
 
 function frameError(message) {
   const lines = message.split("\n");
@@ -213,8 +164,7 @@ function runMatrix() {
 
 // runMatrix();
 
-// Export the functions=======================================================
-// ============================================================================
+// exports====================================================================
 
 module.exports = {
   getUserIP,
@@ -224,3 +174,5 @@ module.exports = {
   frameInfo,
   runMatrix,
 };
+
+// ============================================================================

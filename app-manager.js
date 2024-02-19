@@ -1,4 +1,13 @@
-// In a new file, e.g., appManager.js
+// =============================================================================
+// 
+// project: toolbox/app-manager.js
+// date: 15.02.2024
+// main file that starts the app and displays the menu
+// using the readline module to take user input
+// and chalk to style the output
+// and the functions/Apps from other files
+//
+// =============================================================================
 
 // dependencies=================================================================
 
@@ -9,7 +18,7 @@ import("chalk").then((module) => {
 
 const readline = require("readline");
 
-// import the functions from other files==========================================
+// imports======================================================================
 
 // const { infoApp } = require("./02-info.js");
 const { displayInfo } = require("./02-info.js");
@@ -30,15 +39,29 @@ async function startApp() {
   });
 
   rl.question(
-    `${chalk.yellow("\nPlease select an option: \n\n")}${chalk.green(
-      "1."
-    )}${chalk.yellow(" Weather Forecast \n")}${chalk.green("2.")}${chalk.yellow(
-      " Calculator\n"
-    )}${chalk.green("3.")}${chalk.yellow(" To Do List\n")}${chalk.green(
-      "4."
-    )}${chalk.yellow(" Random Joke\n\n")}${chalk.green("5.")}${chalk.yellow(
-      " Refresh\n"
-    )}${chalk.green("6.")}${chalk.yellow(" Exit \n\n")}${chalk.green(">")} `,
+    `\n` +
+      ` `.repeat(5) +
+      chalk.yellow(`Please select an option: \n\n`) +
+      ` `.repeat(5) +
+      chalk.green(`1.`) +
+      chalk.yellow(` Weather Forecast \n`) +
+      ` `.repeat(5) +
+      chalk.green(`2.`) +
+      chalk.yellow(` Calculator\n`) +
+      ` `.repeat(5) +
+      chalk.green(`3.`) +
+      chalk.yellow(` To Do List\n`) +
+      ` `.repeat(5) +
+      chalk.green(`4.`) +
+      chalk.yellow(` Random Joke\n\n`) +
+      ` `.repeat(5) +
+      chalk.green(`5.`) +
+      chalk.yellow(` Refresh\n`) +
+      ` `.repeat(5) +
+      chalk.green(`6.`) +
+      chalk.yellow(` Exit \n\n`) +
+      chalk.green(`> `),
+
     (answer) => {
       rl.close();
       if (answer === "1" || answer === "w" || answer === "W") {
@@ -56,9 +79,6 @@ async function startApp() {
         runMatrix();
         // process.exit(0);
       } else {
-        // console.log(
-        //   chalk.red(`\nInvalid option:\n\nPlease type in one of the following options:\n\n"1", "w", "W" for Weather Forecast\n"2", "c", "C" for Calculator\n"3", "t", "T" for To Do List\n"4", "j", "J" for Random Joke\n"5", "r", "R" for Refresh\n"6", "e", "E" for Exit\n`
-        // ));
         console.log(
           frameError(
             chalk.red(

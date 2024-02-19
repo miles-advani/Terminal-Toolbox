@@ -19,15 +19,14 @@ import("chalk").then((module) => {
 const axios = require("axios");
 const moment = require("moment");
 
-// insert openweathermap.org api or import it from config.js===================
+// API's======================================================================
 
-// const API_KEY = "your API from openweathermap.org";
+// const API_KEY = "insert your API from openweathermap.org here";
 const { API_KEY } = require("./config.js");
 
-// import functions from other files==========================================
+// imports====================================================================
 
 const {
-  // getUserIP,
   getUserLocation,
   getLocalTime,
   frameInfo,
@@ -36,7 +35,6 @@ const {
 // function for getting the weather based on the user's location===============
 
 async function getWeather() {
-  //   const city = await getUserLocation();
   const location = await getUserLocation();
   try {
     const response = await axios.get(

@@ -4,6 +4,7 @@
 // date: 15.02.2024
 // to-do list app that uses the readline module to take user input
 // and display the to-do list in the console
+// and fs.promises to read and write to a file
 //
 // =============================================================================
 
@@ -17,7 +18,7 @@ import("chalk").then((module) => {
 const readline = require("readline");
 const fs = require("fs").promises;
 
-// import the functions from other files==========================================
+// imports======================================================================
 
 const { frameError, runMatrix } = require("./common.js");
 
@@ -50,28 +51,39 @@ async function startToDo(goBackCallback) {
 
   const option = await askQuestion(
     `\n` +
-    chalk.yellow(`To Do List `) +
-      chalk.green(`=`.repeat(33) +
-      `>`) +
-      chalk.yellow(`\n\nPlease select an option: \n\n`) +
+      chalk.yellow(`To Do List `) +
+      chalk.green(`=`.repeat(32) + `>>`) +
+      `\n\n` +
+      ` `.repeat(5) +
+      chalk.yellow(`Please select an option: `) +
+      `\n\n` +
+      ` `.repeat(5) +
       chalk.green(`1.`) +
-      chalk.yellow(` Add a to-do \n`) +
+      chalk.yellow(` Add a to-do `) +
+      `\n` +
+      ` `.repeat(5) +
       chalk.green(`2.`) +
-      chalk.yellow(` Show to-do list \n\n`) +
+      chalk.yellow(` Show to-do list `) +
+      `\n\n` +
+      ` `.repeat(5) +
       chalk.green(`3.`) +
-      chalk.yellow(` Back \n`) +
+      chalk.yellow(` Back `) +
+      `\n` +
+      ` `.repeat(5) +
       chalk.green(`4.`) +
-      chalk.yellow(` Exit\n\n`) +
+      chalk.yellow(` Exit`) +
+      `\n\n` +
       chalk.green(`> `)
-    // "\n<================ To Do ================>\n\nPlease select an option: \n\n1. Add a to-do \n2. Show to-do list \n\n3. Back\n4. Exit \n\n> "
   );
 
   switch (option) {
     case "1":
       const toDo = await askQuestion(
         `\n` +
-          chalk.green(`-`.repeat(44) + `>`) +
-          chalk.yellow(`\n\nPlease enter a to-do:`) +
+          chalk.yellow(`Add To Do `) +
+          chalk.green(`-`.repeat(32) + `>>>`) +
+          `\n\n` +
+          chalk.yellow(` `.repeat(5) + `Please enter a to-do:`) +
           `\n\n` +
           chalk.green(`> `)
       );
@@ -81,12 +93,15 @@ async function startToDo(goBackCallback) {
       break;
 
     case "2":
-      console.log(`\n` +
-      chalk.green(`-`.repeat(44) + `>`) + `\n`);
+      console.log(
+        `\n` +
+          chalk.yellow(`To Do's `) +
+          chalk.green(`-`.repeat(34) + `>>>`) +
+          `\n`
+      );
       toDoList.forEach((item, index) => {
         console.log(chalk.green(`${index + 1}. ${item}`));
       });
-      // console.log("\n--------------------------------------------------\n");
       startToDo(goBackCallback);
       break;
 

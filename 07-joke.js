@@ -36,11 +36,6 @@ async function getJoke() {
 
 // function to display the joke=====================================================
 
-// async function displayJoke() {
-//   const joke = await getJoke();
-//   console.log("\n", joke);
-// }
-
 function askQuestion(query) {
   const rl = readline.createInterface({
     input: process.stdin,
@@ -60,11 +55,23 @@ async function displayJoke(goBackCallback) {
   console.log("\n", chalk.green(joke));
 
   const option = await askQuestion(
-    `${chalk.yellow("\nPlease select an option: \n\n")}${chalk.green(
-      "1."
-    )}${chalk.yellow(" Refresh \n")}${chalk.green("2.")}${chalk.yellow(
-      " Back\n"
-    )}${chalk.green("3.")}${chalk.yellow(" Exit\n\n")}${chalk.green("> ")}`
+    `\n` +
+      ` `.repeat(5) +
+      chalk.yellow(`Please select an option: `) +
+      `\n\n` +
+      ` `.repeat(5) +
+      chalk.green(`1.`) +
+      chalk.yellow(` Refresh `) +
+      `\n` +
+      ` `.repeat(5) +
+      chalk.green(`2.`) +
+      chalk.yellow(` Back`) +
+      `\n` +
+      ` `.repeat(5) +
+      chalk.green(`3.`) +
+      chalk.yellow(` Exit`) +
+      `\n\n` +
+      chalk.green(`> `)
   );
 
   switch (option) {
@@ -120,3 +127,5 @@ async function displayJoke(goBackCallback) {
 // export the function==============================================================
 
 module.exports = { displayJoke };
+
+// ================================================================================
