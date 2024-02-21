@@ -20,10 +20,17 @@ import("chalk").then((module) => {
 
 const readline = require("readline");
 const math = require("mathjs");
+const moment = require("moment");
 
 // imports===================================================================================
 
-const { frameError, runMatrix } = require("./common.js");
+const {
+  getUserLocation,
+  getLocalTime,
+  frameError,
+  frameInfo,
+  runMatrix,
+} = require("./common.js");
 
 // Function to convert pixels to rem===========================================================
 
@@ -56,25 +63,28 @@ function askQuestion(query) {
 // Function to start the calculator=============================================================
 
 async function startCalculator(goBackCallback) {
+  const location = await getUserLocation();
+  const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
       chalk.yellow(`Calculator `) +
       chalk.green(`=`.repeat(32) + `>>`) +
+      ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
       ` `.repeat(5) +
       chalk.yellow(`Please select an option: `) +
       `\n\n` +
       ` `.repeat(5) +
       chalk.green(`1.`) +
-      chalk.yellow(` Calculate a mathematical expression `) +
+      chalk.yellow(` Calculations `) +
       `\n` +
       ` `.repeat(5) +
       chalk.green(`2.`) +
-      chalk.yellow(` Convert pixels to REM `) +
+      chalk.yellow(` PX to REM `) +
       `\n` +
       ` `.repeat(5) +
       chalk.green(`3.`) +
-      chalk.yellow(` Convert REM to pixels `) +
+      chalk.yellow(` REM to PX `) +
       `\n\n` +
       ` `.repeat(5) +
       chalk.green(`4.`) +
@@ -100,7 +110,7 @@ async function startCalculator(goBackCallback) {
       );
       try {
         const result = math.evaluate(expression);
-        console.log(`\n` + chalk.green(`= ${result}`) + `\n`);
+        console.log(frameInfo(`\n` + chalk.green(`= ${result}`) + `\n`));
       } catch (error) {
         console.log(
           frameError(
@@ -139,7 +149,7 @@ async function startCalculator(goBackCallback) {
           )
         );
       } else {
-        console.log(chalk.green(`\n${px} px = ${rem} rem\n`));
+        console.log(frameInfo(chalk.green(`\n${px} px = ${rem} rem\n`)));
       }
       await startCalculator(goBackCallback);
       break;
@@ -165,7 +175,9 @@ async function startCalculator(goBackCallback) {
           )
         );
       } else {
-        console.log(chalk.green(`\n${remInput} rem = ${pxResult} px\n`));
+        console.log(
+          frameInfo(chalk.green(`\n${remInput} rem = ${pxResult} px\n`))
+        );
       }
       await startCalculator(goBackCallback);
       break;

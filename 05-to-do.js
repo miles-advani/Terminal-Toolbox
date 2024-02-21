@@ -17,10 +17,17 @@ import("chalk").then((module) => {
 
 const readline = require("readline");
 const fs = require("fs").promises;
+const moment = require("moment");
 
 // imports======================================================================
 
-const { frameError, runMatrix } = require("./common.js");
+const {
+  getUserLocation,
+  getLocalTime,
+  frameError,
+  frameInfo,
+  runMatrix,
+} = require("./common.js");
 
 // function to ask a question and get user input==================================
 
@@ -43,16 +50,19 @@ function askQuestion(query) {
 async function startToDo(goBackCallback) {
   let toDoList;
   try {
-    const data = await fs.readFile("todoList.txt", "utf8");
+    const data = await fs.readFile("todoList.md", "utf8");
     toDoList = data.split("\n");
   } catch (err) {
     toDoList = [];
   }
 
+  const location = await getUserLocation();
+  const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
       chalk.yellow(`To Do List `) +
       chalk.green(`=`.repeat(32) + `>>`) +
+      ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
       ` `.repeat(5) +
       chalk.yellow(`Please select an option: `) +
@@ -88,9 +98,22 @@ async function startToDo(goBackCallback) {
           chalk.green(`> `)
       );
       toDoList.push(toDo);
-      await fs.writeFile("todoList.txt", toDoList.join("\n"));
+      await fs.writeFile("todoList.md", toDoList.join("\n"));
       startToDo(goBackCallback);
       break;
+
+    // case "2":
+    //   console.log(
+    //     `\n` +
+    //       chalk.yellow(`To Do's `) +
+    //       chalk.green(`-`.repeat(34) + `>>>`) +
+    //       `\n`
+    //   );
+    //   toDoList.forEach((item, index) => {
+    //     console.log(frameInfo(chalk.green(`${index + 1}. ${item}`)));
+    //   });
+    //   startToDo(goBackCallback);
+    //   break;
 
     case "2":
       console.log(
@@ -99,9 +122,11 @@ async function startToDo(goBackCallback) {
           chalk.green(`-`.repeat(34) + `>>>`) +
           `\n`
       );
+      let toDoString = "";
       toDoList.forEach((item, index) => {
-        console.log(chalk.green(`${index + 1}. ${item}`));
+        toDoString += chalk.green(`${index + 1}. ${item}`) + "\n";
       });
+      console.log(frameInfo(toDoString));
       startToDo(goBackCallback);
       break;
 

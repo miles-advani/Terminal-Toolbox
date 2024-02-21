@@ -1,2 +1,9 @@
 js toolbox project
 presentation
+
+add padding to frames
+implement a single statement for top and buttom line
+
+
+typescript ubuntu
+add secret time switch

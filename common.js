@@ -93,7 +93,7 @@ function frameInfo(message) {
   const lines = message.split("\n");
   const maxLength = Math.max(...lines.map((line) => stripAnsi(line).length)); // calculate the length of the longest line
   const borderLength = maxLength + 4; // calculate the length of the border
-  const border = chalk.green("=".repeat(borderLength)); // frame line
+  const border = chalk.green("-".repeat(borderLength)); // frame line
 
   let result = border + "\n";
   for (const line of lines) {

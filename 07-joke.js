@@ -19,7 +19,7 @@ const readline = require("readline");
 
 // import the functions from other files============================================
 
-const { frameError, runMatrix } = require("./common.js");
+const { frameError, frameInfo, runMatrix } = require("./common.js");
 
 // function to get a random joke from the icanhazdadjoke.com api=====================
 
@@ -52,7 +52,7 @@ function askQuestion(query) {
 
 async function displayJoke(goBackCallback) {
   const joke = await getJoke();
-  console.log("\n", chalk.green(joke));
+  console.log(frameInfo(chalk.green(joke)));
 
   const option = await askQuestion(
     `\n` +
