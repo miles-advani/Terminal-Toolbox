@@ -21,6 +21,8 @@ const moment = require("moment");
 
 // imports======================================================================
 
+const { todoFilePath } = require("./config.js");
+
 const {
   getUserLocation,
   getLocalTime,
@@ -28,6 +30,21 @@ const {
   frameInfo,
   runMatrix,
 } = require("./common.js");
+const {
+  paddingLeft,
+  promptIndicator,
+  selectExit,
+  selectGoBack,
+  selectOption,
+  toDoHeader,
+  toDoMenu,
+  addToDoInterface,
+  showToDoInterface,
+  invalidInputError,
+  goBackError,
+  exitError,
+  toDoListError,
+} = require("./src/common/consoleMessages.js");
 
 // function to ask a question and get user input==================================
 
@@ -50,7 +67,7 @@ function askQuestion(query) {
 async function startToDo(goBackCallback) {
   let toDoList;
   try {
-    const data = await fs.readFile("todoList.md", "utf8");
+    const data = await fs.readFile(todoFilePath, "utf8");
     toDoList = data.split("\n");
   } catch (err) {
     toDoList = [];
@@ -60,83 +77,46 @@ async function startToDo(goBackCallback) {
   const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
-      chalk.yellow(`To Do List `) +
-      chalk.green(`=`.repeat(32) + `>>`) +
+      toDoHeader() +
       ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.yellow(`Please select an option: `) +
+      paddingLeft +
+      selectOption() +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.green(`1.`) +
-      chalk.yellow(` Add a to-do `) +
+      toDoMenu() +
+      `\n\n` +
+      paddingLeft +
+      selectGoBack() +
       `\n` +
-      ` `.repeat(5) +
-      chalk.green(`2.`) +
-      chalk.yellow(` Show to-do list `) +
+      paddingLeft +
+      selectExit() +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.green(`3.`) +
-      chalk.yellow(` Back `) +
-      `\n` +
-      ` `.repeat(5) +
-      chalk.green(`4.`) +
-      chalk.yellow(` Exit`) +
-      `\n\n` +
-      chalk.green(`> `)
+      promptIndicator()
   );
 
   switch (option) {
     case "1":
-      const toDo = await askQuestion(
-        `\n` +
-          chalk.yellow(`Add To Do `) +
-          chalk.green(`-`.repeat(32) + `>>>`) +
-          `\n\n` +
-          chalk.yellow(` `.repeat(5) + `Please enter a to-do:`) +
-          `\n\n` +
-          chalk.green(`> `)
-      );
+      const toDo = await askQuestion(addToDoInterface() + promptIndicator());
       toDoList.push(toDo);
-      await fs.writeFile("todoList.md", toDoList.join("\n"));
+      await fs.writeFile(todoFilePath, toDoList.join("\n"));
       startToDo(goBackCallback);
       break;
 
-    // case "2":
-    //   console.log(
-    //     `\n` +
-    //       chalk.yellow(`To Do's `) +
-    //       chalk.green(`-`.repeat(34) + `>>>`) +
-    //       `\n`
-    //   );
-    //   toDoList.forEach((item, index) => {
-    //     console.log(frameInfo(chalk.green(`${index + 1}. ${item}`)));
-    //   });
-    //   startToDo(goBackCallback);
-    //   break;
-
     case "2":
-      console.log(
-        `\n` +
-          chalk.yellow(`To Do's `) +
-          chalk.green(`-`.repeat(34) + `>>>`) +
-          `\n`
-      );
+      console.log(showToDoInterface());
       let toDoString = "";
       toDoList.forEach((item, index) => {
-        toDoString += chalk.green(`${index + 1}. ${item}`) + "\n";
+        toDoString += chalk.blue(`${index + 1}. ${item}`) + "\n";
       });
       console.log(frameInfo(toDoString));
       startToDo(goBackCallback);
       break;
 
-    case "3":
     case "b":
     case "B":
       goBackCallback();
       break;
 
-    case "4":
     case "e":
     case "E":
       // console.log("\n--------------------------------------------------\n");
@@ -148,23 +128,7 @@ async function startToDo(goBackCallback) {
     default:
       console.log(
         frameError(
-          ` \n` +
-            chalk.red(`Invalid option:`) +
-            ` \n \n` +
-            chalk.red(`Please type in one of the following options:`) +
-            ` \n \n` +
-            chalk.green(`"1"`) +
-            chalk.red(` for Add a to-do`) +
-            ` \n` +
-            chalk.green(`"2"`) +
-            chalk.red(` for Show to-do list`) +
-            ` \n` +
-            chalk.green(`"3", "b", "B"`) +
-            chalk.red(` for Go back`) +
-            ` \n` +
-            chalk.green(`"4", "e", "E"`) +
-            chalk.red(` for Exit the app`) +
-            ` \n`
+          invalidInputError() + toDoListError() + goBackError() + exitError()
         )
       );
       startToDo(goBackCallback);

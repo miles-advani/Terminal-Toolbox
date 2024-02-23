@@ -31,6 +31,21 @@ const {
   // getLocalTime // not used in this file but file is not working without it?
 } = require("./common.js");
 
+const {
+  paddingLeft,
+  promptIndicator,
+  selectOption,
+  selectRefresh,
+  selectGoBack,
+  selectExit,
+  weatherHeader,
+  weatherBorder,
+  refreshError,
+  goBackError,
+  exitError,
+  invalidInputError,
+} = require("./src/common/consoleMessages.js");
+
 // Function to get the weather forecast based on the user's location==========
 
 async function getForecast() {
@@ -65,52 +80,45 @@ function askQuestion(query) {
 
 async function displayForecast(goBackCallback) {
   const forecast = await getForecast();
-  console.log(
-    `\n` + chalk.yellow(`Weather `) + chalk.green(`=`.repeat(35) + `>>`) + `\n`
-  );
+  console.log(`\n` + weatherHeader() + `\n`);
 
   forecast.forEach((item) => {
     console.log(`Date and time: ${item.dt_txt}`);
     console.log(`Temperature: ${item.main.temp}°C`);
     console.log(`Weather: ${item.weather[0].description}`);
-    console.log(chalk.green(`-`.repeat(35)));
+    console.log(weatherBorder());
   });
 
   const option = await askQuestion(
     `\n` +
-      ` `.repeat(5) +
-      chalk.yellow("Please select an option: ") + `\n\n` +
-      ` `.repeat(5) +
-      chalk.green("1.") +
-      chalk.yellow(" Refresh ") +
-      `\n` +
-      ` `.repeat(5) +
-      chalk.green("2.") +
-      chalk.yellow(" Back") +
-      `\n` +
-      ` `.repeat(5) +
-      chalk.green("3.") +
-      chalk.yellow(" Exit") +
+      paddingLeft +
+      selectOption() +
       `\n\n` +
-      chalk.green("> ")
+      paddingLeft +
+      selectRefresh() +
+      `\n` +
+      paddingLeft +
+      selectGoBack() +
+      `\n` +
+      paddingLeft +
+      selectExit() +
+      `\n\n` +
+      promptIndicator()
   );
 
   switch (option) {
-    case "1":
     case "r":
     case "R":
       // Refresh the forecast
       await displayForecast(goBackCallback);
       break;
 
-    case "2":
     case "b":
     case "B":
       // Go back
       goBackCallback();
       break;
 
-    case "3":
     case "e":
     case "E":
       // Exit the app
@@ -121,15 +129,10 @@ async function displayForecast(goBackCallback) {
     default:
       console.log(
         frameError(
-          chalk.red(
-            `\nInvalid option:\n\nPlease type in one of the following options:\n\n`
-          ) +
-            chalk.green(`"1", "r", "R"`) +
-            chalk.red(` for Refresh the forecast\n`) +
-            chalk.green(`"2", "b", "B"`) +
-            chalk.red(` for Go back\n`) +
-            chalk.green(`"3", "e", "E"`) +
-            chalk.red(` for Exit the app\n`)
+          invalidInputError() +
+            refreshError() +
+            goBackError() +
+            exitError()
         )
       );
       await displayForecast(goBackCallback);

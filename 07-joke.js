@@ -20,6 +20,18 @@ const readline = require("readline");
 // import the functions from other files============================================
 
 const { frameError, frameInfo, runMatrix } = require("./common.js");
+const {
+  paddingLeft,
+  selectOption,
+  selectRefresh,
+  selectGoBack,
+  selectExit,
+  promptIndicator,
+  invalidInputError,
+  refreshError,
+  goBackError,
+  exitError,
+} = require("./src/common/consoleMessages.js");
 
 // function to get a random joke from the icanhazdadjoke.com api=====================
 
@@ -56,40 +68,34 @@ async function displayJoke(goBackCallback) {
 
   const option = await askQuestion(
     `\n` +
-      ` `.repeat(5) +
-      chalk.yellow(`Please select an option: `) +
+      paddingLeft +
+      selectOption() +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.green(`1.`) +
-      chalk.yellow(` Refresh `) +
+      paddingLeft +
+      selectRefresh() +
       `\n` +
-      ` `.repeat(5) +
-      chalk.green(`2.`) +
-      chalk.yellow(` Back`) +
+      paddingLeft +
+      selectGoBack() +
       `\n` +
-      ` `.repeat(5) +
-      chalk.green(`3.`) +
-      chalk.yellow(` Exit`) +
+      paddingLeft +
+      selectExit() +
       `\n\n` +
-      chalk.green(`> `)
+      promptIndicator()
   );
 
   switch (option) {
-    case "1":
     case "r":
     case "R":
       // Refresh the joke
       await displayJoke(goBackCallback);
       break;
 
-    case "2":
     case "b":
     case "B":
       // Go back
       goBackCallback();
       break;
 
-    case "3":
     case "e":
     case "E":
       // Exit the app
@@ -100,20 +106,7 @@ async function displayJoke(goBackCallback) {
     default:
       console.log(
         frameError(
-          ` \n` +
-            chalk.red(`Invalid option:`) +
-            ` \n \n` +
-            chalk.red(`Please type in one of the following options:`) +
-            ` \n \n` +
-            chalk.green(`"1"`) +
-            chalk.red(` for Refresh the joke`) +
-            ` \n` +
-            chalk.green(`"2"`) +
-            chalk.red(` for Go back`) +
-            ` \n` +
-            chalk.green(`"3"`) +
-            chalk.red(` for Exit the app`) +
-            ` \n`
+          invalidInputError() + refreshError() + goBackError() + exitError()
         )
       );
       await displayJoke(goBackCallback);

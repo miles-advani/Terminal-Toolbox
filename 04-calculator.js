@@ -32,6 +32,25 @@ const {
   runMatrix,
 } = require("./common.js");
 
+const {
+  paddingLeft,
+  promptIndicator,
+  selectOption,
+  selectGoBack,
+  selectExit,
+  calculatorHeader,
+  calculatorMenu,
+  calculationsInterface,
+  pxToRemInterface,
+  remToPxInterface,
+  invalidInputError,
+  remToPxError,
+  calculatorError,
+  goBackError,
+  exitError,
+  calculationsError,
+} = require("./src/common/consoleMessages.js");
+
 // Function to convert pixels to rem===========================================================
 
 function pxToRem(px, baseSize = 16) {
@@ -67,46 +86,27 @@ async function startCalculator(goBackCallback) {
   const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
-      chalk.yellow(`Calculator `) +
-      chalk.green(`=`.repeat(32) + `>>`) +
+      calculatorHeader() +
       ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.yellow(`Please select an option: `) +
+      paddingLeft +
+      selectOption() +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.green(`1.`) +
-      chalk.yellow(` Calculations `) +
-      `\n` +
-      ` `.repeat(5) +
-      chalk.green(`2.`) +
-      chalk.yellow(` PX to REM `) +
-      `\n` +
-      ` `.repeat(5) +
-      chalk.green(`3.`) +
-      chalk.yellow(` REM to PX `) +
+      calculatorMenu() +
       `\n\n` +
-      ` `.repeat(5) +
-      chalk.green(`4.`) +
-      chalk.yellow(` Back`) +
+      paddingLeft +
+      selectGoBack() +
       `\n` +
-      ` `.repeat(5) +
-      chalk.green(`5.`) +
-      chalk.yellow(` Exit `) +
+      paddingLeft +
+      selectExit() +
       `\n\n` +
-      chalk.green(`> `)
+      promptIndicator()
   );
 
   switch (option) {
     case "1":
       const expression = await askQuestion(
-        `\n` +
-          chalk.yellow(`Calculations `) +
-          chalk.green(`-`.repeat(29) + `>>>`) +
-          `\n\n` +
-          chalk.yellow(` `.repeat(5) + `Please enter a math expression:`) +
-          `\n\n` +
-          chalk.green(`> `)
+        calculationsInterface() + promptIndicator()
       );
       try {
         const result = math.evaluate(expression);
@@ -114,14 +114,8 @@ async function startCalculator(goBackCallback) {
       } catch (error) {
         console.log(
           frameError(
-            `\n` +
-              chalk.red(
-                `Invalid expression:` +
-                  `\n` +
-                  `Make sure to use proper operators `
-              ) +
-              chalk.green(`(+, -, *, /) and numbers.`) +
-              `\n`
+            invalidInputError() +
+              calculationsError()
           )
         );
       }
@@ -129,23 +123,13 @@ async function startCalculator(goBackCallback) {
       break;
 
     case "2":
-      const px = await askQuestion(
-        `\n` +
-          chalk.yellow(`PX To REM `) +
-          chalk.green(`-`.repeat(32) + `>>>`) +
-          `\n\n` +
-          chalk.yellow(` `.repeat(5) + `Please enter the number of Pixels:`) +
-          `\n\n` +
-          chalk.green(`> `)
-      );
+      const px = await askQuestion(pxToRemInterface() + promptIndicator());
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
         console.log(
           frameError(
-            `\n` +
-              chalk.red(`Invalid input for Pixels. Please enter a `) +
-              chalk.green(`number.`) +
-              `\n`
+            invalidInputError() +
+              remToPxError()
           )
         );
       } else {
@@ -156,24 +140,11 @@ async function startCalculator(goBackCallback) {
 
     case "3":
       const remInput = await askQuestion(
-        `\n` +
-          chalk.yellow(`REM To PX `) +
-          chalk.green(`-`.repeat(32) + `>>>`) +
-          `\n\n` +
-          chalk.yellow(` `.repeat(5) + `Please enter the number of REM:`) +
-          `\n\n` +
-          chalk.green(`> `)
+        remToPxInterface() + promptIndicator()
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log(
-          frameError(
-            `\n` +
-              chalk.red(`Invalid input for REM. Please enter a `) +
-              chalk.green(`number.`) +
-              `\n`
-          )
-        );
+        console.log(frameError(invalidInputError() + remToPxError()));
       } else {
         console.log(
           frameInfo(chalk.green(`\n${remInput} rem = ${pxResult} px\n`))
@@ -182,13 +153,11 @@ async function startCalculator(goBackCallback) {
       await startCalculator(goBackCallback);
       break;
 
-    case "4":
     case "b":
     case "B":
       goBackCallback();
       break;
 
-    case "5":
     case "e":
     case "E":
       // console.log("\n--------------------------------------------------\n");
@@ -200,26 +169,7 @@ async function startCalculator(goBackCallback) {
     default:
       console.log(
         frameError(
-          ` \n` +
-            chalk.red(`Invalid option:`) +
-            ` \n \n` +
-            chalk.red(`Please type in one of the following options:`) +
-            ` \n \n` +
-            chalk.green(`"1"`) +
-            chalk.red(` for Mathematical expression`) +
-            ` \n` +
-            chalk.green(`"2"`) +
-            chalk.red(` for Convert pixels to REM`) +
-            ` \n` +
-            chalk.green(`"3"`) +
-            chalk.red(` for Convert REM to pixels`) +
-            ` \n` +
-            chalk.green(`"4", "b", "B"`) +
-            chalk.red(` for Go back`) +
-            ` \n` +
-            chalk.green(`"5", "e", "E"`) +
-            chalk.red(` for Exit the app`) +
-            ` \n`
+          invalidInputError() + calculatorError() + goBackError() + exitError()
         )
       );
       await startCalculator(goBackCallback);

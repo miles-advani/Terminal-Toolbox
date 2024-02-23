@@ -9,14 +9,22 @@
 // 
 // =============================================================================
 
-// API key for openweathermap.org===============================================
+// API key's====================================================================
 
-const API_KEY = "041f4450ac99bf471f1cf38b20fa6daa";
+const API_KEY = "041f4450ac99bf471f1cf38b20fa6daa"; // openweathermap.org / 02-info.js / 03-weather.js
+
+// file paths===================================================================
+
+// const todoFilePath = "todoList.md"; // 05-to-do.js
+const todoFilePath = "/Users/miles/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/to-do-test.md"; // 05-to-do.js
 
 // exports======================================================================
 
 module.exports = {
   API_KEY,
+  todoFilePath,
 };
 
 // =============================================================================
+
+// ~/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/to-do-test.md
