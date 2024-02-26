@@ -14,6 +14,13 @@ import("strip-ansi").then((module) => {
   stripAnsi = module.default;
 });
 
+// imports======================================================================
+
+// const { colorOne, } = require("./config.js");
+// import changeColor from "./test.js";
+
+// const {changeColor} = require("/Users/miles/dci/projects/javascript-projects/toolbox/test.js");
+
 // menu========================================================================
 // prompt Indicator=====================
 function promptIndicator() {
