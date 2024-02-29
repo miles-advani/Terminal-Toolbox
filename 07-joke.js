@@ -19,7 +19,12 @@ const readline = require("readline");
 
 // import the functions from other files============================================
 
-const { frameError, frameInfo, runMatrix } = require("./common.js");
+const {
+  askQuestion,
+  frameError,
+  frameInfo,
+  runMatrix,
+} = require("./common.js");
 const {
   paddingLeft,
   selectOption,
@@ -48,20 +53,6 @@ async function getJoke() {
 
 // function to display the joke=====================================================
 
-function askQuestion(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    })
-  );
-}
-
 async function displayJoke(goBackCallback) {
   const joke = await getJoke();
   console.log(frameInfo(chalk.green(joke)));
@@ -69,18 +60,28 @@ async function displayJoke(goBackCallback) {
   const option = await askQuestion(
     `\n` +
       paddingLeft +
-      selectOption() +
+      (
+        await selectOption()
+      ).selectOptionLog +
       `\n\n` +
       paddingLeft +
-      selectRefresh() +
+      (
+        await selectRefresh()
+      ).selectRefreshLog +
       `\n` +
       paddingLeft +
-      selectGoBack() +
+      (
+        await selectGoBack()
+      ).selectGoBackLog +
       `\n` +
       paddingLeft +
-      selectExit() +
+      (
+        await selectExit()
+      ).selectExitLog +
       `\n\n` +
-      promptIndicator()
+      (
+        await promptIndicator()
+      ).promptIndicatorLog
   );
 
   switch (option) {
@@ -106,7 +107,10 @@ async function displayJoke(goBackCallback) {
     default:
       console.log(
         frameError(
-          invalidInputError() + refreshError() + goBackError() + exitError()
+          (await invalidInputError()).invalidInputErrorLog +
+            (await refreshError()).refreshErrorLog +
+            (await goBackError()).goBackErrorLog +
+            (await exitError()).exitErrorLog
         )
       );
       await displayJoke(goBackCallback);

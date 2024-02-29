@@ -16,211 +16,317 @@ import("strip-ansi").then((module) => {
 
 // imports======================================================================
 
-// const { colorOne, } = require("./config.js");
-// import changeColor from "./test.js";
-
-// const {changeColor} = require("/Users/miles/dci/projects/javascript-projects/toolbox/test.js");
+const {
+  menuColor,
+  outputColor,
+  textColor,
+  errorColor,
+} = require("/Users/miles/dci/projects/javascript-projects/toolbox/config.js");
 
 // menu========================================================================
 // prompt Indicator=====================
-function promptIndicator() {
-  return chalk.green("> ");
+async function promptIndicator() {
+  const outputColorValue = await outputColor();
+  return {
+    promptIndicatorLog: outputColorValue(`> `),
+  };
 }
 // padding left=========================
 const paddingLeft = ` `.repeat(5);
 // select option========================
-function selectOption() {
-  return chalk.yellow(`Please select an option:`);
+async function selectOption() {
+  const menuColorValue = await menuColor();
+  return {
+    selectOptionLog: menuColorValue(`Please select an option:`),
+  };
 }
 // refresh==============================
-function selectRefresh() {
-  return chalk.green(`r `) + chalk.yellow(`Refresh`);
+async function selectRefresh() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectRefreshLog: outputColorValue(`r `) + menuColorValue(`Refresh`),
+  };
 }
 // back=================================
-function selectGoBack() {
-  return chalk.green(`b `) + chalk.yellow(`Back`);
+async function selectGoBack() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectGoBackLog: outputColorValue(`b `) + menuColorValue(`Back`),
+  };
 }
 // exit=================================
-function selectExit() {
-  return chalk.green(`e `) + chalk.yellow(`Exit`);
+async function selectExit() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectExitLog: outputColorValue(`e `) + menuColorValue(`Exit`),
+  };
 }
 // weather==============================
-function selectWeather() {
-  return chalk.green(`1 `) + chalk.yellow(`Weather Forecast`);
+async function selectWeather() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectWeatherLog:
+      outputColorValue(`1 `) + menuColorValue(`Weather Forecast`),
+  };
 }
 // weather header
-function weatherHeader() {
-  return chalk.yellow(`Weather `) + chalk.green(`=`.repeat(35) + `>>`);
+async function weatherHeader() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    weatherHeaderLog:
+      menuColorValue(`Weather `) + outputColorValue(`=`.repeat(35) + `>>`),
+  };
 }
 // weather border
-function weatherBorder() {
-  return chalk.green(`-`.repeat(35));
+async function weatherBorder() {
+  const outputColorValue = await outputColor();
+  return {
+    weatherBorderLog: outputColorValue(`-`.repeat(35)),
+  };
 }
 // calculator===========================
-function selectCalculator() {
-  return chalk.green(`2 `) + chalk.yellow(`Calculator`);
+async function selectCalculator() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectCalculatorLog: outputColorValue(`2 `) + menuColorValue(`Calculator`),
+  };
 }
 // calculator header
-function calculatorHeader() {
-  return chalk.yellow(`Calculator `) + chalk.green(`=`.repeat(32) + `>>`);
+async function calculatorHeader() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    calculatorHeaderLog:
+      menuColorValue(`Calculator `) + outputColorValue(`=`.repeat(32) + `>>`),
+  };
 }
 // calculator menu
-function calculatorMenu() {
-  return (
-    paddingLeft +
-    chalk.green(`1.`) +
-    chalk.yellow(` Calculations `) +
-    `\n` +
-    paddingLeft +
-    chalk.green(`2.`) +
-    chalk.yellow(` PX to REM `) +
-    `\n` +
-    paddingLeft +
-    chalk.green(`3.`) +
-    chalk.yellow(` REM to PX `)
-  );
+async function calculatorMenu() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    calculatorMenuLog:
+      paddingLeft +
+      outputColorValue(`1 `) +
+      menuColorValue(`Calculations`) +
+      `\n` +
+      paddingLeft +
+      outputColorValue(`2 `) +
+      menuColorValue(`PX to REM`) +
+      `\n` +
+      paddingLeft +
+      outputColorValue(`3 `) +
+      menuColorValue(`REM to PX`),
+  };
 }
 // calculations interface
-function calculationsInterface() {
-  return (
-    `\n` +
-    chalk.yellow(`Calculations `) +
-    chalk.green(`-`.repeat(29) + `>>>`) +
-    `\n\n` +
-    chalk.yellow(paddingLeft + `Please enter a math expression:`) +
-    `\n\n`
-  );
+async function calculationsInterface() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    calculationsInterfaceLog:
+      `\n` +
+      menuColorValue(`Calculations `) +
+      outputColorValue(`-`.repeat(29) + `>>>`) +
+      `\n\n` +
+      menuColorValue(paddingLeft + `Please enter a math expression:`) +
+      `\n\n`,
+  };
 }
 // px to rem interface
-function pxToRemInterface() {
-  return (
-    `\n` +
-    chalk.yellow(`PX To REM `) +
-    chalk.green(`-`.repeat(32) + `>>>`) +
-    `\n\n` +
-    chalk.yellow(paddingLeft + `Please enter the number of Pixels:`) +
-    `\n\n`
-  );
+async function pxToRemInterface() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    pxToRemInterfaceLog:
+      `\n` +
+      menuColorValue(`PX To REM `) +
+      outputColorValue(`-`.repeat(32) + `>>>`) +
+      `\n\n` +
+      menuColorValue(paddingLeft + `Please enter the number of Pixels:`) +
+      `\n\n`,
+  };
 }
 // rem to px interface
-function remToPxInterface() {
-  return (
-    `\n` +
-    chalk.yellow(`REM To PX `) +
-    chalk.green(`-`.repeat(32) + `>>>`) +
-    `\n\n` +
-    chalk.yellow(paddingLeft + `Please enter the number of REM:`) +
-    `\n\n`
-  );
+async function remToPxInterface() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    remToPxInterfaceLog:
+      `\n` +
+      menuColorValue(`REM To PX `) +
+      outputColorValue(`-`.repeat(32) + `>>>`) +
+      `\n\n` +
+      menuColorValue(paddingLeft + `Please enter the number of REM:`) +
+      `\n\n`,
+  };
 }
 // to do list===========================
-function selectToDoList() {
-  return chalk.green(`3 `) + chalk.yellow(`To Do List`);
+async function selectToDoList() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectToDoListLog: outputColorValue(`3 `) + menuColorValue(`To Do List`),
+  };
 }
 // to do header
-function toDoHeader() {
-  return chalk.yellow(`To Do List `) + chalk.green(`=`.repeat(32) + `>>`);
+async function toDoHeader() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    toDoHeaderLog:
+      menuColorValue(`To Do List `) + outputColorValue(`=`.repeat(32) + `>>`),
+  };
 }
 // to do menu
-function toDoMenu() {
-  return (
-    paddingLeft +
-    chalk.green(`1.`) +
-    chalk.yellow(` Add a to-do `) +
-    `\n` +
-    paddingLeft +
-    chalk.green(`2.`) +
-    chalk.yellow(` Show to-do list `)
-  );
+async function toDoMenu() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    toDoMenuLog:
+      paddingLeft +
+      outputColorValue(`1 `) +
+      menuColorValue(`Add a to-do`) +
+      `\n` +
+      paddingLeft +
+      outputColorValue(`2 `) +
+      menuColorValue(`Show to-do list`),
+  };
 }
 // add to do interface
-function addToDoInterface() {
-  return (
-    `\n` +
-    chalk.yellow(`Add To Do `) +
-    chalk.green(`-`.repeat(32) + `>>>`) +
-    `\n\n` +
-    chalk.yellow(paddingLeft + `Please enter a to-do:`) +
-    `\n\n`
-  );
+async function addToDoInterface() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    addToDoInterfaceLog:
+      `\n` +
+      menuColorValue(`Add To Do `) +
+      outputColorValue(`-`.repeat(32) + `>>>`) +
+      `\n\n` +
+      menuColorValue(paddingLeft + `Please enter a to-do:`) +
+      `\n\n`,
+  };
 }
 // show to do list interface
-function showToDoInterface() {
-  return (
-    `\n` + chalk.yellow(`To Do's `) + chalk.green(`-`.repeat(34) + `>>>`) + `\n`
-  );
+async function showToDoInterface() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    showToDoInterfaceLog:
+      `\n` +
+      menuColorValue(`To Do's `) +
+      outputColorValue(`-`.repeat(34) + `>>>`) +
+      `\n`,
+  };
 }
 // random joke==========================
-function selectRandomJoke() {
-  return chalk.green(`4 `) + chalk.yellow(`Random Joke`);
+async function selectRandomJoke() {
+  const outputColorValue = await outputColor();
+  const menuColorValue = await menuColor();
+  return {
+    selectRandomJokeLog: outputColorValue(`4 `) + menuColorValue(`Random Joke`),
+  };
 }
-
 // error messages================================================================
 // invalid Input Error=================
-function invalidInputError() {
-  return chalk.red(
-    `\nInvalid Input:\n\nPlease type in one of the following options:\n\n`
-  );
+async function invalidInputError() {
+  const errorColorValue = await errorColor();
+  return {
+    invalidInputErrorLog: errorColorValue(
+      `\nInvalid Input:\n\nPlease type in one of the following options:\n\n`
+    ),
+  };
 }
 // refresh error========================
-function refreshError() {
-  return chalk.green(`"r", "R"`) + chalk.red(` for Refresh\n`);
+async function refreshError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    refreshErrorLog:
+      outputColorValue(`"r", "R"`) + errorColorValue(` for Refresh\n`),
+  };
 }
 // go back error========================
-function goBackError() {
-  return chalk.green(`"b", "B"`) + chalk.red(` for Go back\n`);
+async function goBackError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    goBackErrorLog:
+      outputColorValue(`"b", "B"`) + errorColorValue(` for Go back\n`),
+  };
 }
 // exit error===========================
-function exitError() {
-  return chalk.green(`"e", "E"`) + chalk.red(` for Exit\n`);
+async function exitError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    exitErrorLog: outputColorValue(`"e", "E"`) + errorColorValue(` for Exit\n`),
+  };
 }
 // app manager error====================
-function appManagerError() {
-  return (
-    chalk.green(`"1", "w", "W"`) +
-    chalk.red(` for Weather Forecast\n`) +
-    chalk.green(`"2", "c", "C"`) +
-    chalk.red(` for Calculator\n`) +
-    chalk.green(`"3", "t", "T"`) +
-    chalk.red(` for To Do List\n`) +
-    chalk.green(`"4", "j", "J"`) +
-    chalk.red(` for Random Joke\n`)
-  );
+async function appManagerError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    appManagerErrorLog:
+      outputColorValue(`"1", "w", "W"`) +
+      errorColorValue(` for Weather Forecast\n`) +
+      outputColorValue(`"2", "c", "C"`) +
+      errorColorValue(` for Calculator\n`) +
+      outputColorValue(`"3", "t", "T"`) +
+      errorColorValue(` for To Do List\n`) +
+      outputColorValue(`"4", "j", "J"`) +
+      errorColorValue(` for Random Joke\n`),
+  };
 }
 // calculator error=====================
-function calculatorError() {
-  return (
-    chalk.green(`"1"`) +
-    chalk.red(` for Mathematical expression`) +
-    ` \n` +
-    chalk.green(`"2"`) +
-    chalk.red(` for Convert pixels to REM`) +
-    ` \n` +
-    chalk.green(`"3"`) +
-    chalk.red(` for Convert REM to pixels`) +
-    ` \n`
-  );
+async function calculatorError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    calculatorErrorLog:
+      outputColorValue(`"1"`) +
+      errorColorValue(` for Mathematical expression\n`) +
+      outputColorValue(`"2"`) +
+      errorColorValue(` for Convert pixels to REM\n`) +
+      outputColorValue(`"3"`) +
+      errorColorValue(` for Convert REM to pixels\n`),
+  };
 }
 // calculations error
-function calculationsError() {
-  return chalk.green(`(+, -, *, /) and numbers`) + `\n`;
+async function calculationsError() {
+  const outputColorValue = await outputColor();
+  return {
+    calculationsErrorLog: outputColorValue(`(+, -, *, /) and numbers`) + `\n`,
+  };
 }
 // rem to px error
-function remToPxError() {
-  return chalk.green(`number`) + `\n`;
+async function remToPxError() {
+  const outputColorValue = await outputColor();
+  return {
+    remToPxErrorLog: outputColorValue(`number`) + `\n`,
+  };
 }
 // to do list error======================
-function toDoListError() {
-  return (
-    chalk.green(`"1"`) +
-    chalk.red(` for Add a to-do`) +
-    ` \n` +
-    chalk.green(`"2"`) +
-    chalk.red(` for Show to-do list`) +
-    ` \n`
-  );
+async function toDoListError() {
+  const outputColorValue = await outputColor();
+  const errorColorValue = await errorColor();
+  return {
+    toDoListErrorLog:
+      outputColorValue(`"1"`) +
+      errorColorValue(` for Add a to-do`) +
+      ` \n` +
+      outputColorValue(`"2"`) +
+      errorColorValue(` for Show to-do list`) +
+      ` \n`,
+  };
 }
-
 // exports====================================================================
 
 module.exports = {

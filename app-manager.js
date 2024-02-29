@@ -46,7 +46,6 @@ const {
 
 async function startApp() {
   await displayInfo();
-
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -55,29 +54,29 @@ async function startApp() {
   rl.question(
     `\n` +
       paddingLeft +
-      selectOption() +
+      (await selectOption()).selectOptionLog +
       `\n\n` +
       paddingLeft +
-      selectWeather() +
+      (await selectWeather()).selectWeatherLog +
       `\n` +
       paddingLeft +
-      selectCalculator() +
+      (await selectCalculator()).selectCalculatorLog +
       `\n` +
       paddingLeft +
-      selectToDoList() +
+      (await selectToDoList()).selectToDoListLog +
       `\n` +
       paddingLeft +
-      selectRandomJoke() +
+      (await selectRandomJoke()).selectRandomJokeLog +
       `\n\n` +
       paddingLeft +
-      selectRefresh() +
+      (await selectRefresh()).selectRefreshLog +
       `\n` +
       paddingLeft +
-      selectExit() +
+      (await selectExit()).selectExitLog +
       `\n\n` +
-      promptIndicator(),
+      (await promptIndicator()).promptIndicatorLog,
 
-    (answer) => {
+    async (answer) => {
       rl.close();
       if (answer === "1" || answer === "w" || answer === "W") {
         displayForecast(startApp);
@@ -94,16 +93,16 @@ async function startApp() {
         runMatrix();
         // process.exit(0);
       } else {
-        console.log(
-          frameError(
-            invalidInputError() +
-              appManagerError() +
-              refreshError() +
-              exitError()
-          )
-        );
-        startApp();
-      }
+  console.log(
+    frameError(
+      (await invalidInputError()).invalidInputErrorLog +
+      (await appManagerError()).appManagerErrorLog +
+      (await refreshError()).refreshErrorLog +
+      (await exitError()).exitErrorLog
+    )
+  );
+  startApp();
+}
     }
   );
 }

@@ -24,6 +24,7 @@ const moment = require("moment");
 const { todoFilePath } = require("./config.js");
 
 const {
+  askQuestion,
   getUserLocation,
   getLocalTime,
   frameError,
@@ -46,22 +47,6 @@ const {
   toDoListError,
 } = require("./src/common/consoleMessages.js");
 
-// function to ask a question and get user input==================================
-
-function askQuestion(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    })
-  );
-}
-
 // function to start the to-do list app===========================================
 
 async function startToDo(goBackCallback) {
@@ -77,33 +62,50 @@ async function startToDo(goBackCallback) {
   const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
-      toDoHeader() +
+      (
+        await toDoHeader()
+      ).toDoHeaderLog +
       ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
       paddingLeft +
-      selectOption() +
+      (
+        await selectOption()
+      ).selectOptionLog +
       `\n\n` +
-      toDoMenu() +
+      (
+        await toDoMenu()
+      ).toDoMenuLog +
       `\n\n` +
       paddingLeft +
-      selectGoBack() +
+      (
+        await selectGoBack()
+      ).selectGoBackLog +
       `\n` +
       paddingLeft +
-      selectExit() +
+      (
+        await selectExit()
+      ).selectExitLog +
       `\n\n` +
-      promptIndicator()
+      (
+        await promptIndicator()
+      ).promptIndicatorLog
   );
 
   switch (option) {
     case "1":
-      const toDo = await askQuestion(addToDoInterface() + promptIndicator());
+      const toDo = await askQuestion(
+        (await addToDoInterface()).addToDoInterfaceLog +
+          (
+            await promptIndicator()
+          ).promptIndicatorLog
+      );
       toDoList.push(toDo);
       await fs.writeFile(todoFilePath, toDoList.join("\n"));
       startToDo(goBackCallback);
       break;
 
     case "2":
-      console.log(showToDoInterface());
+      console.log((await showToDoInterface()).showToDoInterfaceLog);
       let toDoString = "";
       toDoList.forEach((item, index) => {
         toDoString += chalk.blue(`${index + 1}. ${item}`) + "\n";
@@ -128,7 +130,10 @@ async function startToDo(goBackCallback) {
     default:
       console.log(
         frameError(
-          invalidInputError() + toDoListError() + goBackError() + exitError()
+          (await invalidInputError()).invalidInputErrorLog +
+            (await toDoListError()).toDoListErrorLog +
+            (await goBackError()).goBackErrorLog +
+            (await exitError()).exitErrorLog
         )
       );
       startToDo(goBackCallback);

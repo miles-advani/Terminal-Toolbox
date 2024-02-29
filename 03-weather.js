@@ -25,6 +25,7 @@ const { API_KEY } = require("./config.js");
 // imports===================================================================
 
 const {
+  askQuestion,
   getUserLocation,
   runMatrix,
   frameError,
@@ -60,50 +61,45 @@ async function getForecast() {
   }
 }
 
-// function to call the menu==================================================
-
-function askQuestion(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    })
-  );
-}
-
 // Function to display the weather forecast=================================
 
 async function displayForecast(goBackCallback) {
+  const { weatherBorderLog } = await weatherBorder();
   const forecast = await getForecast();
-  console.log(`\n` + weatherHeader() + `\n`);
+  console.log(`\n` + (await weatherHeader()).weatherHeaderLog + `\n`);
 
   forecast.forEach((item) => {
     console.log(`Date and time: ${item.dt_txt}`);
     console.log(`Temperature: ${item.main.temp}°C`);
     console.log(`Weather: ${item.weather[0].description}`);
-    console.log(weatherBorder());
+    console.log(weatherBorderLog);
   });
 
   const option = await askQuestion(
     `\n` +
       paddingLeft +
-      selectOption() +
+      (
+        await selectOption()
+      ).selectOptionLog +
       `\n\n` +
       paddingLeft +
-      selectRefresh() +
+      (
+        await selectRefresh()
+      ).selectRefreshLog +
       `\n` +
       paddingLeft +
-      selectGoBack() +
+      (
+        await selectGoBack()
+      ).selectGoBackLog +
       `\n` +
       paddingLeft +
-      selectExit() +
+      (
+        await selectExit()
+      ).selectExitLog +
       `\n\n` +
-      promptIndicator()
+      (
+        await promptIndicator()
+      ).promptIndicatorLog
   );
 
   switch (option) {
@@ -129,10 +125,10 @@ async function displayForecast(goBackCallback) {
     default:
       console.log(
         frameError(
-          invalidInputError() +
-            refreshError() +
-            goBackError() +
-            exitError()
+          (await invalidInputError()).invalidInputErrorLog +
+            (await refreshError()).refreshErrorLog +
+            (await goBackError()).goBackErrorLog +
+            (await exitError()).exitErrorLog
         )
       );
       await displayForecast(goBackCallback);

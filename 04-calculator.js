@@ -9,7 +9,7 @@
 // taking user input from the command line
 // using the console.log to display the results
 //
-// ===========================================================================================
+// ==========================================================================================
 
 // dependencies==============================================================================
 
@@ -25,6 +25,7 @@ const moment = require("moment");
 // imports===================================================================================
 
 const {
+  askQuestion,
   getUserLocation,
   getLocalTime,
   frameError,
@@ -63,22 +64,6 @@ function remToPx(rem, baseSize = 16) {
   return rem * baseSize;
 }
 
-// Function to ask a question and get user input================================================
-
-function askQuestion(query) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) =>
-    rl.question(query, (ans) => {
-      rl.close();
-      resolve(ans);
-    })
-  );
-}
-
 // Function to start the calculator=============================================================
 
 async function startCalculator(goBackCallback) {
@@ -86,27 +71,42 @@ async function startCalculator(goBackCallback) {
   const localTime = await getLocalTime(location);
   const option = await askQuestion(
     `\n` +
-      calculatorHeader() +
+      (
+        await calculatorHeader()
+      ).calculatorHeaderLog +
       ` ${chalk.green(moment(localTime).format("HH:mm:ss"))}` +
       `\n\n` +
       paddingLeft +
-      selectOption() +
+      (
+        await selectOption()
+      ).selectOptionLog +
       `\n\n` +
-      calculatorMenu() +
+      (
+        await calculatorMenu()
+      ).calculatorMenuLog +
       `\n\n` +
       paddingLeft +
-      selectGoBack() +
+      (
+        await selectGoBack()
+      ).selectGoBackLog +
       `\n` +
       paddingLeft +
-      selectExit() +
+      (
+        await selectExit()
+      ).selectExitLog +
       `\n\n` +
-      promptIndicator()
+      (
+        await promptIndicator()
+      ).promptIndicatorLog
   );
 
   switch (option) {
     case "1":
       const expression = await askQuestion(
-        calculationsInterface() + promptIndicator()
+        (await calculationsInterface()).calculationsInterfaceLog +
+          (
+            await promptIndicator()
+          ).promptIndicatorLog
       );
       try {
         const result = math.evaluate(expression);
@@ -114,8 +114,8 @@ async function startCalculator(goBackCallback) {
       } catch (error) {
         console.log(
           frameError(
-            invalidInputError() +
-              calculationsError()
+            (await invalidInputError()).invalidInputErrorLog +
+              (await calculationsError()).calculationsErrorLog
           )
         );
       }
@@ -123,13 +123,18 @@ async function startCalculator(goBackCallback) {
       break;
 
     case "2":
-      const px = await askQuestion(pxToRemInterface() + promptIndicator());
+      const px = await askQuestion(
+        (await pxToRemInterface()).pxToRemInterfaceLog +
+          (
+            await promptIndicator()
+          ).promptIndicatorLog
+      );
       const rem = pxToRem(Number(px));
       if (isNaN(rem)) {
         console.log(
           frameError(
-            invalidInputError() +
-              remToPxError()
+            (await invalidInputError()).invalidInputErrorLog +
+              (await remToPxError()).remToPxErrorLog
           )
         );
       } else {
@@ -140,11 +145,19 @@ async function startCalculator(goBackCallback) {
 
     case "3":
       const remInput = await askQuestion(
-        remToPxInterface() + promptIndicator()
+        (await remToPxInterface()).remToPxInterfaceLog +
+          (
+            await promptIndicator()
+          ).promptIndicatorLog
       );
       const pxResult = remToPx(Number(remInput));
       if (isNaN(pxResult)) {
-        console.log(frameError(invalidInputError() + remToPxError()));
+        console.log(
+          frameError(
+            (await invalidInputError()).invalidInputErrorLog +
+              (await remToPxError()).remToPxErrorLog
+          )
+        );
       } else {
         console.log(
           frameInfo(chalk.green(`\n${remInput} rem = ${pxResult} px\n`))
@@ -169,7 +182,10 @@ async function startCalculator(goBackCallback) {
     default:
       console.log(
         frameError(
-          invalidInputError() + calculatorError() + goBackError() + exitError()
+          (await invalidInputError()).invalidInputErrorLog +
+            (await calculatorError()).calculatorErrorLog +
+            (await goBackError()).goBackErrorLog +
+            (await exitError()).exitErrorLog
         )
       );
       await startCalculator(goBackCallback);

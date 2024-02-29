@@ -19,8 +19,6 @@ import("strip-ansi").then((module) => {
 
 const axios = require("axios");
 
-// location====================================================================
-// ============================================================================
 // functions for getting the user's IP=========================================
 
 async function getUserIP() {
@@ -45,8 +43,6 @@ async function getUserLocation() {
   }
 }
 
-// date and time===============================================================
-// ============================================================================
 // function for getting the local time based on the user's location============
 // it's not used in weather.js but weather.js breaks without it
 // used in 02-info.js
@@ -62,8 +58,22 @@ async function getLocalTime(location) {
   }
 }
 
-// style======================================================================
-// ============================================================================
+// readline function to ask a question=======================================
+
+function askQuestion(query) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  return new Promise((resolve) =>
+    rl.question(query, (ans) => {
+      rl.close();
+      resolve(ans);
+    })
+  );
+}
+
 // function to frame error messages in red======================================
 
 function frameError(message) {
@@ -111,8 +121,6 @@ function frameInfo(message) {
 }
 
 // Matrix======================================================================
-// ============================================================================
-// ============================================================================
 
 let readline, chalk;
 
@@ -167,6 +175,7 @@ function runMatrix() {
 // exports====================================================================
 
 module.exports = {
+  askQuestion,
   getUserIP,
   getUserLocation,
   getLocalTime,
