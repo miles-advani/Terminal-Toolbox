@@ -21,7 +21,7 @@ const {
   outputColor,
   textColor,
   errorColor,
-} = require("/Users/miles/dci/projects/javascript-projects/toolbox/config.js");
+} = require("../../config.js");
 
 // menu========================================================================
 // prompt Indicator=====================

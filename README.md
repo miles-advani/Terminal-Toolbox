@@ -27,20 +27,17 @@
 - bring days left to calculator
 - let user choose the date
 - save the date like to do
+- use luxor!!!!
 
 
 
-## Presentation
+## Goals and Motivation
 
-- purpose
-- what i used
-- what i learned
-- what i would do differently
-- what i didn't used
-- what i didn't understand
-- what i would like to add
+The primary goal of this project was to practice JavaScript and explore Node APIs. However, the inspiration for Terminal Toolbox came from a unique personal need. 
 
-- switch location
+Working on a Mac with a small screen size, I prefer to keep my workspace uncluttered by hiding the upper and bottom menu bars. This means the system clock isn't always visible. As a developer, I spend a significant amount of time in the terminal, so I thought, why not bring the clock to the terminal? 
+
+This led to the creation of Terminal Toolbox, starting with a simple feature to display the current time. The project has since grown, incorporating a variety of tools to enhance productivity and add a touch of fun to the terminal experience.
 
 ### random
 
@@ -49,7 +46,7 @@
 - git stash
 - git clear
 
-# Terminal Companion
+# Terminal Toolbox
 
 Terminal Companion is a command-line application that provides a variety of useful tools and information directly in your terminal.
 
