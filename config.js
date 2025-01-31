@@ -9,9 +9,12 @@
 //
 // =============================================================================
 
+require('dotenv').config();
+
 // API key's====================================================================
 
-const API_KEY = "041f4450ac99bf471f1cf38b20fa6daa"; // openweathermap.org / 02-info.js / 03-weather.js (default)
+// const API_KEY = "041f4450ac99bf471f1cf38b20fa6daa"; // openweathermap.org / 02-info.js / 03-weather.js (default)
+const API_KEY = process.env.API_KEY;
 
 // file path's==================================================================
 
